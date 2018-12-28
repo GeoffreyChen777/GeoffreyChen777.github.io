@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CNNs on Geo&#39;s Blog</title>
+    <link>https://geoch.top/tags/cnns/</link>
+    <description>Recent content in CNNs on Geo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 05 May 2017 13:13:02 +0000</lastBuildDate>
+    
+	<atom:link href="https://geoch.top/tags/cnns/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>A Beginner&#39;s Guide to CNN</title>
+      <link>https://geoch.top/2017/a-beginner-s-guide-to-cnn/</link>
+      <pubDate>Fri, 05 May 2017 13:13:02 +0000</pubDate>
+      
+      <guid>https://geoch.top/2017/a-beginner-s-guide-to-cnn/</guid>
+      <description>&lt;p&gt;This is the guide for the CNNs newbie.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

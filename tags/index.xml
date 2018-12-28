@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Geo&#39;s Blog</title>
+    <link>https://geoch.top/tags/</link>
+    <description>Recent content in Tags on Geo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 05 May 2017 13:13:02 +0000</lastBuildDate>
+    
+	<atom:link href="https://geoch.top/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>CNNs</title>
+      <link>https://geoch.top/tags/cnns/</link>
+      <pubDate>Fri, 05 May 2017 13:13:02 +0000</pubDate>
+      
+      <guid>https://geoch.top/tags/cnns/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>NLP</title>
+      <link>https://geoch.top/tags/nlp/</link>
+      <pubDate>Sat, 02 Sep 2017 17:37:56 +0000</pubDate>
+      
+      <guid>https://geoch.top/tags/nlp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>PGMs</title>
+      <link>https://geoch.top/tags/pgms/</link>
+      <pubDate>Sat, 03 Mar 2018 20:06:15 +0000</pubDate>
+      
+      <guid>https://geoch.top/tags/pgms/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

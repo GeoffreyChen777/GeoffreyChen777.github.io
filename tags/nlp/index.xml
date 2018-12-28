@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NLP on Geo&#39;s Blog</title>
+    <link>https://geoch.top/tags/nlp/</link>
+    <description>Recent content in NLP on Geo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 02 Sep 2017 17:37:56 +0000</lastBuildDate>
+    
+	<atom:link href="https://geoch.top/tags/nlp/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Where is the vector in word2vec-CBOW?</title>
+      <link>https://geoch.top/2017/where-is-the-vector-in-word2vec-cbow/</link>
+      <pubDate>Sat, 02 Sep 2017 17:37:56 +0000</pubDate>
+      
+      <guid>https://geoch.top/2017/where-is-the-vector-in-word2vec-cbow/</guid>
+      <description>&lt;p&gt;Where is the vector in word2vec-CBOW?&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

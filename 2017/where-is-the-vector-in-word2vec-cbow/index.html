@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Geoffrey.Chen">
+  
+  
+  
+  <link rel="prev" href="https://geoch.top/2017/a-beginner-s-guide-to-cnn/" />
+  <link rel="next" href="https://geoch.top/2018/probabilistic-graphical-models-1/" />
+  <link rel="canonical" href="https://geoch.top/2017/where-is-the-vector-in-word2vec-cbow/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           Where is the vector in word2vec-CBOW? | Geo&#39;s Blog
+       
+  </title>
+  <meta name="title" content="Where is the vector in word2vec-CBOW? | Geo&#39;s Blog">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https://geoch.top/"
+    },
+    "articleSection" : "posts",
+    "name" : "Where is the vector in word2vec-CBOW?",
+    "headline" : "Where is the vector in word2vec-CBOW?",
+    "description" : "<p>Where is the vector in word2vec-CBOW?</p>",
+    "inLanguage" : "en-us",
+    "author" : "Geoffrey Chen",
+    "creator" : "Geoffrey Chen",
+    "publisher": "Geoffrey Chen",
+    "accountablePerson" : "Geoffrey Chen",
+    "copyrightHolder" : "Geoffrey Chen",
+    "copyrightYear" : "2017",
+    "datePublished": "2017-09-02 17:37:56 &#43;0000 UTC",
+    "dateModified" : "2017-09-02 17:37:56 &#43;0000 UTC",
+    "url" : "https://geoch.top/2017/where-is-the-vector-in-word2vec-cbow/",
+    "wordCount" : "42",
+    "keywords" : [ "NLP", "Geo&#39;s Blog"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://geoch.top/">Geo&#39;s Blog</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="https://github.com/GeoffreyChen777" title="">Github</a>
+                
+                <a class="menu-item" href="/about/" title="About Me">About Me</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://geoch.top/">Geo&#39;s Blog</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="https://github.com/GeoffreyChen777" title="">Github</a>
+                
+                <a class="menu-item" href="/about/" title="About Me">About Me</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Where is the vector in word2vec-CBOW?</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://geoch.top/" rel="author">Geoffrey Chen</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2017-09-02 itemprop="datePublished">September 2, 2017</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://geoch.top/categories/deeplearning/"> DeepLearning </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+            
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <p>Where is the vector in word2vec-CBOW?</p>
+
+<p>本周看的一篇论文，Incremental Dual-memory LSTM in Land Cover Prediction 中有提到使用了 word2vec 中的 CBOW 模型，进行标签序列的向量化，从而将标签序列信息加入到 LSTM 中。为此去理解 word2vec 中的 CBOW 模型。</p>
+
+<p>CBOW 模型是 word2vec 的一种，用来建立词语的向量表示。CBOW 模型的输入为一个句子，扣除了其中一个单词的剩余其他词汇。之后用这几个上下文的词汇对扣去的词汇进行预测。整体效果如图所示</p>
+
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="https://i.loli.net/2017/09/02/59aa78ca385a0.png" alt="TIM截图20170902172413.png" class="lazyload"><figcaption class="image-caption">TIM截图20170902172413.png</figcaption></figure></p>
+
+<p>可以发现，CBOW 模型，更像是用来根据上下文进行单词的推断。那么我们之前不是说 word2vec 是用来将单词转化为向量的么，为什么这里就变成了单词推断？</p>
+
+<p>实质上，单词推断只是 CBOW 模型的<strong>伪任务</strong>。我们想得到的是在推断运算过程中的那个权重矩阵，而不是最后推断出的单词。最后推断出的单词，只是帮助我们进行损失计算，从而反向传播进行调参的。</p>
+
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="https://i.loli.net/2017/09/02/59aa7af974190.png" alt="TIM截图20170902173335.png" class="lazyload"><figcaption class="image-caption">TIM截图20170902173335.png</figcaption></figure></p>
+
+<p>左侧是 one-hot 类型的输入词向量，之后紧跟的矩阵，就是我们想要的词向量矩阵。包括 skip-gram 模型的词向量矩阵也是同理。</p>
+
+<p>有任何不对的地方，希望各位老师同学指正，谢谢！</p>
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Geoffrey.Chen </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://geoch.top/2017/where-is-the-vector-in-word2vec-cbow/>https://geoch.top/2017/where-is-the-vector-in-word2vec-cbow/</span>
+            </p>
+            
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://geoch.top/tags/nlp/">
+                    #NLP</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://geoch.top/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://geoch.top/2017/a-beginner-s-guide-to-cnn/" class="prev" rel="prev" title="A Beginner&#39;s Guide to CNN"><i class="iconfont icon-left"></i>&nbsp;A Beginner&#39;s Guide to CNN</a>
+         
+        
+        <a href="https://geoch.top/2018/probabilistic-graphical-models-1/" class="next" rel="next" title="Probabilistic Graphical Models (1)">Probabilistic Graphical Models (1)&nbsp;<i class="iconfont icon-right"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2017 - 2018</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://geoch.top/">Geoffrey.Chen</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+     <link href="//lib.baomitu.com/lightgallery/1.6.11/css/lightgallery.min.css" rel="stylesheet">  
+      
+     <script src="/js/vendor_gallery.min.js" async="" ></script>
+    
+  
+
+
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+     </div>
+  </body>
+</html>
