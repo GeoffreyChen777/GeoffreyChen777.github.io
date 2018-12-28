@@ -300,13 +300,10 @@ Dropout 作用的机制是按照一定几率随机的将输出置为 0。可以�
       <pubDate>Sun, 28 Dec 2014 00:00:00 +0000</pubDate>
       
       <guid>https://geoch.top/about/</guid>
-      <description>
+      <description>&lt;h1 id=&#34;profile&#34;&gt;PROFILE&lt;/h1&gt;
 
-&lt;h1 id=&#34;profile&#34;&gt;PROFILE&lt;/h1&gt;
-
-&lt;p&gt;Name: CHANGRUI CHEN (陈常瑞)&lt;br /&gt;
-Institute Address: College of Information Science and Engineering, Ocean University of China, No. 238 Songling Road, Qingdao, 266100 P.R. China&lt;br /&gt;
-E-mail: ccr&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Name&lt;/strong&gt;: CHANGRUI CHEN (陈常瑞)&lt;br /&gt;
+&lt;strong&gt;Institute Address&lt;/strong&gt;: College of Information Science and Engineering, Ocean University of China, No. 238 Songling Road, Qingdao, 266100 P.R. China&lt;/p&gt;
 
 &lt;h1 id=&#34;research-interests-and-statements&#34;&gt;RESEARCH INTERESTS AND STATEMENTS&lt;/h1&gt;
 
@@ -328,25 +325,25 @@ Ocean University of China, Vision Lab, Computer Technology, 2017-now, Supervisor
 &lt;li&gt;&lt;p&gt;2017 Underwater Robot Piking Contest (Organized by National Natural Science Foundation of China)&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Object Detection(online): First Award&lt;/li&gt;
+&lt;li&gt;Object Detection(online): &lt;strong&gt;First Award&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;2018 Underwater Robot Piking Contest&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Object Detection(offline): Second Award&lt;/li&gt;
-&lt;li&gt;Object Picking: Third Award&lt;/li&gt;
+&lt;li&gt;Object Detection(offline): &lt;strong&gt;Second Award&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Object Picking: &lt;strong&gt;Third Award&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;2017 China Computer Federation Ship Detection in the Complex Ocean Environment&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;First place in the preliminary round，Top 5% in the final round&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;First place in the preliminary round，Top 5% in the final round&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;Ocean University of China Outstanding Graduate Student&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Ocean University of China &lt;strong&gt;Outstanding Graduate Student&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;Ocean University of China Scholarship, Grade One (2017)&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Ocean University of China Scholarship, &lt;strong&gt;Grade One (2017)&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;Ocean University of China Scholarship, Grade Two (2016)&lt;/p&gt;&lt;/li&gt;
 
@@ -391,8 +388,7 @@ Ocean University of China, Vision Lab, Computer Technology, 2017-now, Supervisor
 
 &lt;h1 id=&#34;other&#34;&gt;OTHER&lt;/h1&gt;
 
-&lt;p&gt;Hard working, motivated, enthusiastic, reliable&lt;/p&gt;
-</description>
+&lt;p&gt;Hard working, motivated, enthusiastic, reliable&lt;/p&gt;</description>
     </item>
     
   </channel>
