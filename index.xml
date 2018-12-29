@@ -6,8 +6,22 @@
     <description>Recent content in Geo&#39;s Blog on Geo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 03 Mar 2018 20:06:15 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 28 Dec 2018 12:11:02 +0000</lastBuildDate>
     <atom:link href="/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>New Look</title>
+      <link>https://geoch.top/2018/newlook/</link>
+      <pubDate>Fri, 28 Dec 2018 12:11:02 +0000</pubDate>
+      
+      <guid>https://geoch.top/2018/newlook/</guid>
+      <description>&lt;p&gt;I dressed up this blog.&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;p&gt;I choose HUGO with LeaveIt theme to rebuild this blog. HUGO is really faster than HEXO.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Probabilistic Graphical Models (3)</title>
@@ -304,6 +318,8 @@ Dropout 作用的机制是按照一定几率随机的将输出置为 0。可以�
 
 &lt;p&gt;&lt;strong&gt;Name&lt;/strong&gt;: CHANGRUI CHEN (陈常瑞)&lt;br /&gt;
 &lt;strong&gt;Institute Address&lt;/strong&gt;: College of Information Science and Engineering, Ocean University of China, No. 238 Songling Road, Qingdao, 266100 P.R. China&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;E-Mail&lt;/strong&gt;: &lt;img src=&#34;https://geoch.top/images/email.png&#34; width=150 style=&#34;display:inline; margin-top:100&#34; /&gt;&lt;/p&gt;
 
 &lt;h1 id=&#34;research-interests-and-statements&#34;&gt;RESEARCH INTERESTS AND STATEMENTS&lt;/h1&gt;
 

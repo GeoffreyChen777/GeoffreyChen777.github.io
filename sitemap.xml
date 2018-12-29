@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
     <url>
+      <loc>https://geoch.top/2018/newlook/</loc>
+      
+      <lastmod>2018-12-28T12:11:02+00:00</lastmod>
+      
+      
+      
+      
+    </url>
+  
+    <url>
       <loc>https://geoch.top/2018/probabilistic-graphical-models-3/</loc>
       
       <lastmod>2018-03-03T20:06:15+00:00</lastmod>
@@ -97,9 +107,33 @@
     </url>
   
     <url>
+      <loc>https://geoch.top/tags/essay/</loc>
+      
+      <lastmod>2018-12-28T12:11:02+00:00</lastmod>
+      
+      
+      
+      <priority>0</priority>
+      
+      
+    </url>
+  
+    <url>
+      <loc>https://geoch.top/categories/essay/</loc>
+      
+      <lastmod>2018-12-28T12:11:02+00:00</lastmod>
+      
+      
+      
+      <priority>0</priority>
+      
+      
+    </url>
+  
+    <url>
       <loc>https://geoch.top/</loc>
       
-      <lastmod>2018-03-03T20:06:15+00:00</lastmod>
+      <lastmod>2018-12-28T12:11:02+00:00</lastmod>
       
       
       
@@ -121,7 +155,7 @@
     </url>
   
     <url>
-      <loc>https://geoch.top/categories/pgms/</loc>
+      <loc>https://geoch.top/tags/pgms/</loc>
       
       <lastmod>2018-03-03T20:06:15+00:00</lastmod>
       
@@ -133,7 +167,7 @@
     </url>
   
     <url>
-      <loc>https://geoch.top/tags/pgms/</loc>
+      <loc>https://geoch.top/categories/pgms/</loc>
       
       <lastmod>2018-03-03T20:06:15+00:00</lastmod>
       
@@ -147,7 +181,7 @@
     <url>
       <loc>https://geoch.top/posts/</loc>
       
-      <lastmod>2018-03-03T20:06:15+00:00</lastmod>
+      <lastmod>2018-12-28T12:11:02+00:00</lastmod>
       
       
       

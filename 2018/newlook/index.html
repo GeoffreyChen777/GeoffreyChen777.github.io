@@ -9,9 +9,9 @@
   
   <meta name="keywords" content="deeplearning computervision">
   
-  <link rel="prev" href="https://geoch.top/2018/probabilistic-graphical-models-2/" />
-  <link rel="next" href="https://geoch.top/2018/newlook/" />
-  <link rel="canonical" href="https://geoch.top/2018/probabilistic-graphical-models-3/" />
+  <link rel="prev" href="https://geoch.top/2018/probabilistic-graphical-models-3/" />
+  
+  <link rel="canonical" href="https://geoch.top/2018/newlook/" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -22,10 +22,10 @@
   <title>
        
        
-           Probabilistic Graphical Models (3) | Geo&#39;s Blog
+           New Look | Geo&#39;s Blog
        
   </title>
-  <meta name="title" content="Probabilistic Graphical Models (3) | Geo&#39;s Blog">
+  <meta name="title" content="New Look | Geo&#39;s Blog">
     
   
   <link rel="stylesheet" href="/font/iconfont.css">
@@ -44,9 +44,10 @@
          "@id": "https://geoch.top/"
     },
     "articleSection" : "posts",
-    "name" : "Probabilistic Graphical Models (3)",
-    "headline" : "Probabilistic Graphical Models (3)",
-    "description" : "<p>Reasoning Patterns and Flow of Probabilistic Influence</p>",
+    "name" : "New Look",
+    "headline" : "New Look",
+    "description" : "I dressed up this blog.
+I choose HUGO with LeaveIt theme to rebuild this blog. HUGO is really faster than HEXO.",
     "inLanguage" : "en-us",
     "author" : "Geoffrey Chen",
     "creator" : "Geoffrey Chen",
@@ -54,11 +55,11 @@
     "accountablePerson" : "Geoffrey Chen",
     "copyrightHolder" : "Geoffrey Chen",
     "copyrightYear" : "2018",
-    "datePublished": "2018-03-03 20:06:15 &#43;0000 UTC",
-    "dateModified" : "2018-03-03 20:06:15 &#43;0000 UTC",
-    "url" : "https://geoch.top/2018/probabilistic-graphical-models-3/",
-    "wordCount" : "129",
-    "keywords" : [ "PGMs", "Geo&#39;s Blog"]
+    "datePublished": "2018-12-28 12:11:02 &#43;0000 UTC",
+    "dateModified" : "2018-12-28 12:11:02 &#43;0000 UTC",
+    "url" : "https://geoch.top/2018/newlook/",
+    "wordCount" : "21",
+    "keywords" : [ "Essay", "Geo&#39;s Blog"]
 }
 </script>
 
@@ -121,16 +122,16 @@
       		
 <article class="post-warp" itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">Probabilistic Graphical Models (3)</h1>
+        <h1 class="post-title" itemprop="name headline">New Look</h1>
         <div class="post-meta">
                 Written by <a itemprop="name" href="https://geoch.top/" rel="author">Geoffrey Chen</a> with ♥ 
                 <span class="post-time">
-                on <time datetime=2018-03-03 itemprop="datePublished">March 3, 2018</time>
+                on <time datetime=2018-12-28 itemprop="datePublished">December 28, 2018</time>
                 </span>
                 in
                 <i class="iconfont icon-folder"></i>
                 <span class="post-category">
-                        <a href="https://geoch.top/categories/pgms/"> PGMs </a>
+                        <a href="https://geoch.top/categories/essay/"> Essay </a>
                         
                 </span>
         </div>
@@ -151,57 +152,12 @@
           
           
 
-          <p>Reasoning Patterns and Flow of Probabilistic Influence</p>
+          <p>I dressed up this blog.</p>
 
-<h2 id="推断-reasoning-patterns">推断 (Reasoning Patterns)</h2>
+<!-- more -->
 
-<p>Reasoning Patterns，即推断，就是根据已知条件，来判断或者得到未知的信息。推断回答了如何使用 PGM。比如我们想知道，当 $E=e$ 时，事件 A 的概率分布，即求后验概率分布。</p>
+<p>I choose HUGO with LeaveIt theme to rebuild this blog. HUGO is really faster than HEXO.</p>
 
-<p>推断有三种，分别是因果推断，证据推断，交叉推断。</p>
-
-<h3 id="因果推断">因果推断</h3>
-
-<p>在 PGM 中，通常用边表示关系，贝叶斯网络中，有向边的起始就是因，结束就是果。比如学生例子中，智商低，课程难，那么就很容易得到低分，低分又会导致拿不到好的推荐信。这可以通过概率计算表现出来，可以看到因果推断是按照贝叶斯网络中箭头的方向进行推断的。</p>
-
-<h3 id="证据推断">证据推断</h3>
-
-<p>即根据结果，推断可能的原因，在贝叶斯网络中逆向推断。比如，学生得到了较低的 SAT 分数，那么他智力不高的可能性就上升了。</p>
-
-<h3 id="交叉因果推断">交叉因果推断</h3>
-
-<p>假设学生课程成绩很低，但是课程同时很难，那么课程同时很难这个信息会传播到智力节点，根据这两个信息，推断导致学生智力高的概率有略微升高。</p>
-
-<p>我们可以隐约的感觉到，在贝叶斯网络中，似乎存在着某种流动，在各个节点中，一个节点的变化，随着流动，传播影响着别的节点，这就是接下来要介绍的：Flow of Probabilistic Influence.</p>
-
-<h2 id="概率影响的流动-flow-of-probabilistic-influence">概率影响的流动 (Flow of Probabilistic Influence)</h2>
-
-<p>根据概率影响的流动，我们可以判定出随机变量之间的独立性。独立性和依赖性是很重要的两个属性。</p>
-
-<p>根据公开课中的例子，考虑随机变量 X，W，Y。我们来讨论什么情况下，X 可以 影响 Y。</p>
-
-<p>显然如果在贝叶斯网络中，X 与 Y 之间有边，无论箭头指向如何，他们都不是相互独立的。</p>
-
-<p>讨论集中在 X 和 Y 中如果有中间随机变量 W，那么他们之间会如何影响。要分 W 是否被观测分别讨论。</p>
-
-<ul>
-<li>W 没被观测</li>
-<li>\(X \to W \to Y\) ✔</li>
-<li>\(X \gets W \gets Y\) ✔
-显然这两种情况是可以的</li>
-<li>\(X \gets W \to Y\) ✔
-这种情况，举个例子，就是智力(I)和课程分数(G)以及 SAT 分数(S)之间的关系，当智力未知的时候，SAT 分数高，我们会自然而然的认为智力高，从而导致获得课程分数高的可能性增大。反之同理。</li>
-<li>\(X \to W \gets Y\) ✘
-这是课程难度(D)，智力(I)，与课程分数(G)的关系。如果课程难度升高，在得分未知的情况下，我们没有任何理由去可靠的推理智力是怎么样的。</li>
-<li>W 被观测</li>
-<li>\(X \to W \to Y\) ✘</li>
-<li>\(X \gets W \gets Y\) ✘
-这两种情况中，结果无论是 X 还是 Y 都只能由 W 影响。</li>
-<li>\(X \gets W \to Y\) ✘
-这种情况，虽然 SAT 分数很高，但是由于智力被观测到了，假设很低，所以分数受到智力低的影响，低分概率会增大。SAT 分数高可能是其他未知因素影响的。</li>
-<li>\(X \to W \gets Y\) ✔
-这种情况下刚好相反。因为课程分数(G)被观测了，假如难度(D)大，那么可能智商就不太高，反之同理。
-根据这些不同结构的独立性，可以定义 Active Trial (激活轨迹)。感性的理解就是可以传播影响的路线。不同的结构之间可以相互组合，激活连通性可以类推。</li>
-</ul>
     </div>
 
     <div class="post-copyright">
@@ -215,7 +171,7 @@
              
             <p class="copyright-item">
                     <span>Link:</span>
-                    <a href=https://geoch.top/2018/probabilistic-graphical-models-3/>https://geoch.top/2018/probabilistic-graphical-models-3/</span>
+                    <a href=https://geoch.top/2018/newlook/>https://geoch.top/2018/newlook/</span>
             </p>
             
             
@@ -227,8 +183,8 @@
             <section>
             <i class="iconfont icon-tag"></i>Tag(s): 
             
-            <span class="tag"><a href="https://geoch.top/tags/pgms/">
-                    #PGMs</a></span>
+            <span class="tag"><a href="https://geoch.top/tags/essay/">
+                    #Essay</a></span>
             
             </section>
         
@@ -240,10 +196,8 @@
 
     <div class="post-nav">
         
-        <a href="https://geoch.top/2018/probabilistic-graphical-models-2/" class="prev" rel="prev" title="Probabilistic Graphical Models (2)"><i class="iconfont icon-left"></i>&nbsp;Probabilistic Graphical Models (2)</a>
+        <a href="https://geoch.top/2018/probabilistic-graphical-models-3/" class="prev" rel="prev" title="Probabilistic Graphical Models (3)"><i class="iconfont icon-left"></i>&nbsp;Probabilistic Graphical Models (3)</a>
          
-        
-        <a href="https://geoch.top/2018/newlook/" class="next" rel="next" title="New Look">New Look&nbsp;<i class="iconfont icon-right"></i></a>
         
     </div>
 
