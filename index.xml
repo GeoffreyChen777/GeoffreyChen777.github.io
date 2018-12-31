@@ -15,11 +15,7 @@
       <pubDate>Sun, 30 Dec 2018 21:46:02 +0000</pubDate>
       
       <guid>https://geoch.top/2018/torchrecord/</guid>
-      <description>
-
-&lt;p&gt;In order to boost the performance of data loading in PyTorch. I write TorchRecord which is similar to the TFRecord of Tensorflow.&lt;/p&gt;
-
-&lt;!-- more --&gt;
+      <description>&lt;p&gt;In order to boost the performance of data loading in PyTorch. I write TorchRecord which is similar to the TFRecord of Tensorflow.&lt;/p&gt;
 
 &lt;p&gt;You can find the TorchRecord project at &lt;a href=&#34;https://github.com/GeoffreyChen777/TorchRecord&#34; rel=&#34;nofollow noreferrer&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
@@ -61,8 +57,7 @@ Conventional: [00:22&amp;lt;00:00, 16.16it/s]&lt;br /&gt;
 &lt;strong&gt;TorchRecord: [00:13&amp;lt;00:00, 26.73it/s]&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Obviously, TorchRecord is about 2x faster than the conventional dataloader.&lt;/p&gt;
-</description>
+&lt;p&gt;Obviously, TorchRecord is about 2x faster than the conventional dataloader.&lt;/p&gt;</description>
     </item>
     
     <item>
