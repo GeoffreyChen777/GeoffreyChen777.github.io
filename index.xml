@@ -6,8 +6,64 @@
     <description>Recent content in Geo&#39;s Blog on Geo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 28 Dec 2018 12:11:02 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 30 Dec 2018 21:46:02 +0000</lastBuildDate>
     <atom:link href="/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>TorchRecord</title>
+      <link>https://geoch.top/2018/torchrecord/</link>
+      <pubDate>Sun, 30 Dec 2018 21:46:02 +0000</pubDate>
+      
+      <guid>https://geoch.top/2018/torchrecord/</guid>
+      <description>
+
+&lt;p&gt;In order to boost the performance of data loading in PyTorch. I write TorchRecord which is similar to TFRecord of Tensorflow.&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;p&gt;You can find the TorchRecord project at &lt;a href=&#34;https://github.com/GeoffreyChen777/TorchRecord&#34; rel=&#34;nofollow noreferrer&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;Following the design of TFRecord and caffe data storage, I choose &lt;strong&gt;Protocol Buffers&lt;/strong&gt; which is a data interchange format developed by Google as the storage format of TorchRecord. &lt;strong&gt;Protocol Buffers&lt;/strong&gt; can encode a set of Python objects into byte string and decoding it likes shooting fish in a barrel. Then, I insert all the byte strings into the LMDB(Lighting Memory-Mapping Database). Finally, we can select items in this database and decode them to the original objects.&lt;/p&gt;
+
+&lt;h2 id=&#34;protocol-buffers&#34;&gt;Protocol Buffers&lt;/h2&gt;
+
+&lt;p&gt;I choose &lt;code&gt;TensorProtos&lt;/code&gt; in caffe2 as the default proto. You can find the detail at &lt;a href=&#34;https://github.com/pytorch/pytorch/blob/a0d22b6965b53e5dd1db8307ebb4f022f4bcbcbe/caffe2/proto/caffe2.proto#L134&#34; rel=&#34;nofollow noreferrer&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;random-training&#34;&gt;Random Training&lt;/h2&gt;
+
+&lt;p&gt;Most of the deep learninig models require random training. The dataloader need to ensure that it can provide random index of the dataset for each training epoch. The easiest way is generating the random index number and using the &lt;code&gt;get()&lt;/code&gt; api of LMDB to get items in the database. But &lt;code&gt;get()&lt;/code&gt; is very slow.&lt;/p&gt;
+
+&lt;p&gt;Finally, in TorchRecord, I shuffle the dataset in two steps：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Shuffle the data before inserting them into the database.&lt;/li&gt;
+&lt;li&gt;Get the items in database sequentially by &lt;code&gt;Cursor&lt;/code&gt;. &lt;code&gt;Cursor&lt;/code&gt; can construct a sequential iterator and it is faster than &lt;code&gt;get()&lt;/code&gt;. Then, build a buffer pool and put items into this pool. The buffer pool will be shuffled every time after inserting an item. Finally, popping a random item as the training example.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Following the above steps, we can obtain a shuffled sequence of the dataset.&lt;/p&gt;
+
+&lt;h2 id=&#34;working-process&#34;&gt;Working Process&lt;/h2&gt;
+
+&lt;p&gt;The main process will generate an index sequence(e.g. 1, 2, 3&amp;hellip;n) and distribute them to every working process. Each working process will construct a cursor of lmdb and will seek to the location of current index number. After that, all the shuffling, decoding and transforming stuff will be done in each sub process.&lt;/p&gt;
+
+&lt;h2 id=&#34;benchmark&#34;&gt;Benchmark&lt;/h2&gt;
+
+&lt;p&gt;I test the TorchRecord at Intel&amp;reg; Xeon&amp;reg; CPU E5-2603 0 @ 1.80GHz 4core with 32 GB Mem.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;num_workers = 2:&lt;br /&gt;
+Conventional: [00:42&amp;lt;00:00,  8.72it/s]&lt;br /&gt;
+&lt;strong&gt;TorchRecord: [00:21&amp;lt;00:00, 16.91it/s]&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;num_workers = 4:&lt;br /&gt;
+Conventional: [00:22&amp;lt;00:00, 16.16it/s]&lt;br /&gt;
+&lt;strong&gt;TorchRecord: [00:13&amp;lt;00:00, 26.73it/s]&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Obviously, TorchRecord is about 2x faster than the conventional dataloader.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>New Look</title>

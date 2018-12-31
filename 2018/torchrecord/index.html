@@ -9,9 +9,9 @@
   
   <meta name="keywords" content="deeplearning computervision">
   
-  <link rel="prev" href="https://geoch.top/2018/probabilistic-graphical-models-3/" />
-  <link rel="next" href="https://geoch.top/2018/torchrecord/" />
-  <link rel="canonical" href="https://geoch.top/2018/newlook/" />
+  <link rel="prev" href="https://geoch.top/2018/newlook/" />
+  
+  <link rel="canonical" href="https://geoch.top/2018/torchrecord/" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -22,10 +22,10 @@
   <title>
        
        
-           New Look | Geo&#39;s Blog
+           TorchRecord | Geo&#39;s Blog
        
   </title>
-  <meta name="title" content="New Look | Geo&#39;s Blog">
+  <meta name="title" content="TorchRecord | Geo&#39;s Blog">
     
   
   <link rel="stylesheet" href="/font/iconfont.css">
@@ -44,10 +44,11 @@
          "@id": "https://geoch.top/"
     },
     "articleSection" : "posts",
-    "name" : "New Look",
-    "headline" : "New Look",
-    "description" : "I dressed up this blog.
-I choose HUGO with LeaveIt theme to rebuild this blog. HUGO is really faster than HEXO.",
+    "name" : "TorchRecord",
+    "headline" : "TorchRecord",
+    "description" : "In order to boost the performance of data loading in PyTorch. I write TorchRecord which is similar to TFRecord of Tensorflow.
+You can find the TorchRecord project at here.
+Introduction Following the design of TFRecord and caffe data storage, I choose Protocol Buffers which is a data interchange format developed by Google as the storage format of TorchRecord. Protocol Buffers can encode a set of Python objects into byte string and decoding it likes shooting fish in a barrel.",
     "inLanguage" : "en-us",
     "author" : "Geoffrey Chen",
     "creator" : "Geoffrey Chen",
@@ -55,11 +56,11 @@ I choose HUGO with LeaveIt theme to rebuild this blog. HUGO is really faster tha
     "accountablePerson" : "Geoffrey Chen",
     "copyrightHolder" : "Geoffrey Chen",
     "copyrightYear" : "2018",
-    "datePublished": "2018-12-28 12:11:02 &#43;0000 UTC",
-    "dateModified" : "2018-12-28 12:11:02 &#43;0000 UTC",
-    "url" : "https://geoch.top/2018/newlook/",
-    "wordCount" : "21",
-    "keywords" : [ "Essay", "Geo&#39;s Blog"]
+    "datePublished": "2018-12-30 21:46:02 &#43;0000 UTC",
+    "dateModified" : "2018-12-30 21:46:02 &#43;0000 UTC",
+    "url" : "https://geoch.top/2018/torchrecord/",
+    "wordCount" : "365",
+    "keywords" : [ "PyTorch", "Geo&#39;s Blog"]
 }
 </script>
 
@@ -122,16 +123,16 @@ I choose HUGO with LeaveIt theme to rebuild this blog. HUGO is really faster tha
       		
 <article class="post-warp" itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">New Look</h1>
+        <h1 class="post-title" itemprop="name headline">TorchRecord</h1>
         <div class="post-meta">
                 Written by <a itemprop="name" href="https://geoch.top/" rel="author">Geoffrey Chen</a> with ♥ 
                 <span class="post-time">
-                on <time datetime=2018-12-28 itemprop="datePublished">December 28, 2018</time>
+                on <time datetime=2018-12-30 itemprop="datePublished">December 30, 2018</time>
                 </span>
                 in
                 <i class="iconfont icon-folder"></i>
                 <span class="post-category">
-                        <a href="https://geoch.top/categories/essay/"> Essay </a>
+                        <a href="https://geoch.top/categories/pytorch/"> PyTorch </a>
                         
                 </span>
         </div>
@@ -152,11 +153,53 @@ I choose HUGO with LeaveIt theme to rebuild this blog. HUGO is really faster tha
           
           
 
-          <p>I dressed up this blog.</p>
+          
+
+<p>In order to boost the performance of data loading in PyTorch. I write TorchRecord which is similar to TFRecord of Tensorflow.</p>
 
 <!-- more -->
 
-<p>I choose HUGO with LeaveIt theme to rebuild this blog. HUGO is really faster than HEXO.</p>
+<p>You can find the TorchRecord project at <a href="https://github.com/GeoffreyChen777/TorchRecord" rel="nofollow noreferrer" target="_blank">here</a>.</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Following the design of TFRecord and caffe data storage, I choose <strong>Protocol Buffers</strong> which is a data interchange format developed by Google as the storage format of TorchRecord. <strong>Protocol Buffers</strong> can encode a set of Python objects into byte string and decoding it likes shooting fish in a barrel. Then, I insert all the byte strings into the LMDB(Lighting Memory-Mapping Database). Finally, we can select items in this database and decode them to the original objects.</p>
+
+<h2 id="protocol-buffers">Protocol Buffers</h2>
+
+<p>I choose <code>TensorProtos</code> in caffe2 as the default proto. You can find the detail at <a href="https://github.com/pytorch/pytorch/blob/a0d22b6965b53e5dd1db8307ebb4f022f4bcbcbe/caffe2/proto/caffe2.proto#L134" rel="nofollow noreferrer" target="_blank">here</a>.</p>
+
+<h2 id="random-training">Random Training</h2>
+
+<p>Most of the deep learninig models require random training. The dataloader need to ensure that it can provide random index of the dataset for each training epoch. The easiest way is generating the random index number and using the <code>get()</code> api of LMDB to get items in the database. But <code>get()</code> is very slow.</p>
+
+<p>Finally, in TorchRecord, I shuffle the dataset in two steps：</p>
+
+<ol>
+<li>Shuffle the data before inserting them into the database.</li>
+<li>Get the items in database sequentially by <code>Cursor</code>. <code>Cursor</code> can construct a sequential iterator and it is faster than <code>get()</code>. Then, build a buffer pool and put items into this pool. The buffer pool will be shuffled every time after inserting an item. Finally, popping a random item as the training example.</li>
+</ol>
+
+<p>Following the above steps, we can obtain a shuffled sequence of the dataset.</p>
+
+<h2 id="working-process">Working Process</h2>
+
+<p>The main process will generate an index sequence(e.g. 1, 2, 3&hellip;n) and distribute them to every working process. Each working process will construct a cursor of lmdb and will seek to the location of current index number. After that, all the shuffling, decoding and transforming stuff will be done in each sub process.</p>
+
+<h2 id="benchmark">Benchmark</h2>
+
+<p>I test the TorchRecord at Intel&reg; Xeon&reg; CPU E5-2603 0 @ 1.80GHz 4core with 32 GB Mem.</p>
+
+<ul>
+<li>num_workers = 2:<br />
+Conventional: [00:42&lt;00:00,  8.72it/s]<br />
+<strong>TorchRecord: [00:21&lt;00:00, 16.91it/s]</strong></li>
+<li>num_workers = 4:<br />
+Conventional: [00:22&lt;00:00, 16.16it/s]<br />
+<strong>TorchRecord: [00:13&lt;00:00, 26.73it/s]</strong></li>
+</ul>
+
+<p>Obviously, TorchRecord is about 2x faster than the conventional dataloader.</p>
 
     </div>
 
@@ -171,7 +214,7 @@ I choose HUGO with LeaveIt theme to rebuild this blog. HUGO is really faster tha
              
             <p class="copyright-item">
                     <span>Link:</span>
-                    <a href=https://geoch.top/2018/newlook/>https://geoch.top/2018/newlook/</span>
+                    <a href=https://geoch.top/2018/torchrecord/>https://geoch.top/2018/torchrecord/</span>
             </p>
             
             
@@ -183,8 +226,8 @@ I choose HUGO with LeaveIt theme to rebuild this blog. HUGO is really faster tha
             <section>
             <i class="iconfont icon-tag"></i>Tag(s): 
             
-            <span class="tag"><a href="https://geoch.top/tags/essay/">
-                    #Essay</a></span>
+            <span class="tag"><a href="https://geoch.top/tags/pytorch/">
+                    #PyTorch</a></span>
             
             </section>
         
@@ -196,10 +239,8 @@ I choose HUGO with LeaveIt theme to rebuild this blog. HUGO is really faster tha
 
     <div class="post-nav">
         
-        <a href="https://geoch.top/2018/probabilistic-graphical-models-3/" class="prev" rel="prev" title="Probabilistic Graphical Models (3)"><i class="iconfont icon-left"></i>&nbsp;Probabilistic Graphical Models (3)</a>
+        <a href="https://geoch.top/2018/newlook/" class="prev" rel="prev" title="New Look"><i class="iconfont icon-left"></i>&nbsp;New Look</a>
          
-        
-        <a href="https://geoch.top/2018/torchrecord/" class="next" rel="next" title="TorchRecord">TorchRecord&nbsp;<i class="iconfont icon-right"></i></a>
         
     </div>
 

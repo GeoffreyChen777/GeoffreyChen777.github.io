@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>PyTorch on Geo&#39;s Blog</title>
+    <link>https://geoch.top/categories/pytorch/</link>
+    <description>Recent content in PyTorch on Geo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 30 Dec 2018 21:46:02 +0000</lastBuildDate>
+    
+	<atom:link href="https://geoch.top/categories/pytorch/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>TorchRecord</title>
+      <link>https://geoch.top/2018/torchrecord/</link>
+      <pubDate>Sun, 30 Dec 2018 21:46:02 +0000</pubDate>
+      
+      <guid>https://geoch.top/2018/torchrecord/</guid>
+      <description>In order to boost the performance of data loading in PyTorch. I write TorchRecord which is similar to TFRecord of Tensorflow.
+You can find the TorchRecord project at here.
+Introduction Following the design of TFRecord and caffe data storage, I choose Protocol Buffers which is a data interchange format developed by Google as the storage format of TorchRecord. Protocol Buffers can encode a set of Python objects into byte string and decoding it likes shooting fish in a barrel.</description>
+    </item>
+    
+  </channel>
+</rss>
