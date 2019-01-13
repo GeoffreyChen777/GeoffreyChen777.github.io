@@ -9,9 +9,9 @@
   
   <meta name="keywords" content="deeplearning computervision">
   
-  <link rel="prev" href="https://geoch.top/2017/where-is-the-vector-in-word2vec-cbow/" />
-  <link rel="next" href="https://geoch.top/2018/probabilistic-graphical-models-2/" />
-  <link rel="canonical" href="https://geoch.top/2018/probabilistic-graphical-models-1/" />
+  <link rel="prev" href="https://geoch.top/2018/torchrecord/" />
+  
+  <link rel="canonical" href="https://geoch.top/2019/reverse-proxy-for-nginx/" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -22,10 +22,10 @@
   <title>
        
        
-           Probabilistic Graphical Models (1) | Geo&#39;s Blog
+           Reverse Proxy for Nextcloud, Gogs etc. | Geo&#39;s Blog
        
   </title>
-  <meta name="title" content="Probabilistic Graphical Models (1) | Geo&#39;s Blog">
+  <meta name="title" content="Reverse Proxy for Nextcloud, Gogs etc. | Geo&#39;s Blog">
     
   
   <link rel="stylesheet" href="/font/iconfont.css">
@@ -44,21 +44,21 @@
          "@id": "https://geoch.top/"
     },
     "articleSection" : "posts",
-    "name" : "Probabilistic Graphical Models (1)",
-    "headline" : "Probabilistic Graphical Models (1)",
-    "description" : "<p>In this article, we focus on three probabilities.</p>",
+    "name" : "Reverse Proxy for Nextcloud, Gogs etc.",
+    "headline" : "Reverse Proxy for Nextcloud, Gogs etc.",
+    "description" : "<p>If we run multiple web application such as nextcloud and gogs with many ports on one NGINX server, contacting these application with subpath is elegant.</p>",
     "inLanguage" : "en-us",
     "author" : "Geoffrey Chen",
     "creator" : "Geoffrey Chen",
     "publisher": "Geoffrey Chen",
     "accountablePerson" : "Geoffrey Chen",
     "copyrightHolder" : "Geoffrey Chen",
-    "copyrightYear" : "2018",
-    "datePublished": "2018-03-01 20:06:15 &#43;0000 UTC",
-    "dateModified" : "2018-03-01 20:06:15 &#43;0000 UTC",
-    "url" : "https://geoch.top/2018/probabilistic-graphical-models-1/",
-    "wordCount" : "57",
-    "keywords" : [ "PGMs", "Geo&#39;s Blog"]
+    "copyrightYear" : "2019",
+    "datePublished": "2019-01-07 21:46:02 &#43;0000 UTC",
+    "dateModified" : "2019-01-07 21:46:02 &#43;0000 UTC",
+    "url" : "https://geoch.top/2019/reverse-proxy-for-nginx/",
+    "wordCount" : "103",
+    "keywords" : [ "Eassy", "Geo&#39;s Blog"]
 }
 </script>
 
@@ -121,16 +121,16 @@
       		
 <article class="post-warp" itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">Probabilistic Graphical Models (1)</h1>
+        <h1 class="post-title" itemprop="name headline">Reverse Proxy for Nextcloud, Gogs etc.</h1>
         <div class="post-meta">
                 Written by <a itemprop="name" href="https://geoch.top/" rel="author">Geoffrey Chen</a> with ♥ 
                 <span class="post-time">
-                on <time datetime=2018-03-01 itemprop="datePublished">March 1, 2018</time>
+                on <time datetime=2019-01-07 itemprop="datePublished">January 7, 2019</time>
                 </span>
                 in
                 <i class="iconfont icon-folder"></i>
                 <span class="post-category">
-                        <a href="https://geoch.top/categories/pgms/"> PGMs </a>
+                        <a href="https://geoch.top/categories/eassy/"> Eassy </a>
                         
                 </span>
         </div>
@@ -138,8 +138,6 @@
     <div class="post-content">
         
 
-        
-            
         
 
         
@@ -153,33 +151,35 @@
           
           
 
-          <p>In this article, we focus on three probabilities.</p>
+          <p>If we run multiple web application such as nextcloud and gogs with many ports on one NGINX server, contacting these application with subpath is elegant.</p>
 
-<p>联合概率、条件概率和边缘概率，这三个不同的概率，是概率图模型中经常会讨论到的三个。</p>
+<h2 id="nginx-config">Nginx Config</h2>
 
-<p>举个清晰明了的例子来分别说明。</p>
+<p>Suppose that the nextcloud port is 8080 in my server.</p>
 
-<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="https://i.loli.net/2018/02/28/5a96bbd9246bf.png" alt="MultivariateNormal.png" class="lazyload"><figcaption class="image-caption">MultivariateNormal.png</figcaption></figure></p>
+<pre><code>server {
+listen       80 default_server;
+listen       [::]:80 default_server;
+server_name  _;
+root         /var/www/html;
 
-<p>上图是两个随机变量的多元正态分布示意图。可以看到一共有两个随机变量，分别是 X 和 Y。</p>
+location /nextcloud/ {
+    proxy_pass http://127.0.0.1:8080/;
+    proxy_redirect off;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Remote_addr $remote_addr;
+}
+</code></pre>
 
-<p>诸如正态分布这种连续的概率分布，理应用概率密度函数来描述。但是在此为了简化描述，我用如下的简化版的概率分布表来描述一个类似上图的正态分布。</p>
+<p>After create the new configrition, we need to change the setting of Nextcloud. This step can solve the 404 problem of all the static files(css/js etc.)</p>
 
-<p>假设随机变量 X 和 Y 的取值只有 [-2, 0, 2] 这三个值，所以概率分布表大概如下表所示：</p>
+<pre><code># config.php
 
-<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="https://i.loli.net/2018/03/01/5a97e04a665ad.png" alt="Screen Shot 2018-03-01 at 7.08.35 PM.png" class="lazyload"><figcaption class="image-caption">Screen Shot 2018-03-01 at 7.08.35 PM.png</figcaption></figure></p>
-
-<p><strong>联合概率</strong>：$$P(X, Y)$$，就是该表中间部分白色底色的。其表示，多个随机变量同时满足其各自约束条件的概率。比如这个例子当中，X 和 Y 两个随机变量，分别都取 -2 时候的概率，或者说，在上面的分布图中，取样点落在某个特定点或者格子区域内的概率。这就是联合概率。</p>
-
-<p><strong>条件概率</strong>：在多随机变量的情况下，一部分变量决定了，作为先决条件的情况下，另外剩下的变量的概率分布，这就是条件概率分布，比如，当 $$X=-2$$ 时，Y 的概率分布，就是条件概率分布。在上表中，这个概率分布应该是：
-$$
-P(Y=-2|X=-2)=\frac{1}{4}，
-P(Y=-2|X=-2)=\frac{2}{4}，
-P(Y=-2|X=-2)=\frac{1}{4}
-$$
-特别的，如果随机变量 X 和 Y 是相互独立的，那么，条件概率等于边缘概率。即$$P(X|Y)=P(X)$$，因为 X 独立于 Y，所以 Y 无论怎么样，都不会影响到 X 的分布。</p>
-
-<p><strong>边缘概率</strong>：之所以叫边缘概率，是因为，边缘概率通常会卸载概率表的边缘。。。因为其通常是某些概率的加和。比如$$P(X)$$实际上是每行概率的加和。即 Y 所有情况都包括的情况下 X 取不同值的概率。</p>
+'overwritewebroot' =&gt; '/nextcloud',
+</code></pre>
     </div>
 
     <div class="post-copyright">
@@ -193,7 +193,7 @@ $$
              
             <p class="copyright-item">
                     <span>Link:</span>
-                    <a href=https://geoch.top/2018/probabilistic-graphical-models-1/>https://geoch.top/2018/probabilistic-graphical-models-1/</span>
+                    <a href=https://geoch.top/2019/reverse-proxy-for-nginx/>https://geoch.top/2019/reverse-proxy-for-nginx/</span>
             </p>
             
             
@@ -205,8 +205,8 @@ $$
             <section>
             <i class="iconfont icon-tag"></i>Tag(s): 
             
-            <span class="tag"><a href="https://geoch.top/tags/pgms/">
-                    #PGMs</a></span>
+            <span class="tag"><a href="https://geoch.top/tags/eassy/">
+                    #Eassy</a></span>
             
             </section>
         
@@ -218,10 +218,8 @@ $$
 
     <div class="post-nav">
         
-        <a href="https://geoch.top/2017/where-is-the-vector-in-word2vec-cbow/" class="prev" rel="prev" title="Where is the vector in word2vec-CBOW?"><i class="iconfont icon-left"></i>&nbsp;Where is the vector in word2vec-CBOW?</a>
+        <a href="https://geoch.top/2018/torchrecord/" class="prev" rel="prev" title="TorchRecord"><i class="iconfont icon-left"></i>&nbsp;TorchRecord</a>
          
-        
-        <a href="https://geoch.top/2018/probabilistic-graphical-models-2/" class="next" rel="next" title="Probabilistic Graphical Models (2)">Probabilistic Graphical Models (2)&nbsp;<i class="iconfont icon-right"></i></a>
         
     </div>
 
@@ -263,9 +261,8 @@ $$
 
 
     
-     <link href="//lib.baomitu.com/lightgallery/1.6.11/css/lightgallery.min.css" rel="stylesheet">  
-      
-     <script src="/js/vendor_gallery.min.js" async="" ></script>
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
     
   
 

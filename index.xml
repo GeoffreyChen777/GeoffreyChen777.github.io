@@ -6,8 +6,45 @@
     <description>Recent content in Geo&#39;s Blog on Geo&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 30 Dec 2018 21:46:02 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 07 Jan 2019 21:46:02 +0000</lastBuildDate>
     <atom:link href="/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Reverse Proxy for Nextcloud, Gogs etc.</title>
+      <link>https://geoch.top/2019/reverse-proxy-for-nginx/</link>
+      <pubDate>Mon, 07 Jan 2019 21:46:02 +0000</pubDate>
+      
+      <guid>https://geoch.top/2019/reverse-proxy-for-nginx/</guid>
+      <description>&lt;p&gt;If we run multiple web application such as nextcloud and gogs with many ports on one NGINX server, contacting these application with subpath is elegant.&lt;/p&gt;
+
+&lt;h2 id=&#34;nginx-config&#34;&gt;Nginx Config&lt;/h2&gt;
+
+&lt;p&gt;Suppose that the nextcloud port is 8080 in my server.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;server {
+listen       80 default_server;
+listen       [::]:80 default_server;
+server_name  _;
+root         /var/www/html;
+
+location /nextcloud/ {
+    proxy_pass http://127.0.0.1:8080/;
+    proxy_redirect off;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Remote_addr $remote_addr;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;After create the new configrition, we need to change the setting of Nextcloud. This step can solve the 404 problem of all the static files(css/js etc.)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# config.php
+
+&#39;overwritewebroot&#39; =&amp;gt; &#39;/nextcloud&#39;,
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
     
     <item>
       <title>TorchRecord</title>
