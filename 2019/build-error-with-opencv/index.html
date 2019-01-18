@@ -9,9 +9,9 @@
   
   <meta name="keywords" content="deeplearning computervision">
   
-  <link rel="prev" href="https://geoch.top/2019/build-error-with-opencv/" />
-  
-  <link rel="canonical" href="https://geoch.top/2019/reverse-proxy-for-nginx/" />
+  <link rel="prev" href="https://geoch.top/2018/torchrecord/" />
+  <link rel="next" href="https://geoch.top/2019/reverse-proxy-for-nginx/" />
+  <link rel="canonical" href="https://geoch.top/2019/build-error-with-opencv/" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -22,10 +22,10 @@
   <title>
        
        
-           Reverse Proxy for Nextcloud, Gogs etc. | Geo&#39;s Blog
+           gSLIC Build Error. | Geo&#39;s Blog
        
   </title>
-  <meta name="title" content="Reverse Proxy for Nextcloud, Gogs etc. | Geo&#39;s Blog">
+  <meta name="title" content="gSLIC Build Error. | Geo&#39;s Blog">
     
   
   <link rel="stylesheet" href="/font/iconfont.css">
@@ -44,9 +44,12 @@
          "@id": "https://geoch.top/"
     },
     "articleSection" : "posts",
-    "name" : "Reverse Proxy for Nextcloud, Gogs etc.",
-    "headline" : "Reverse Proxy for Nextcloud, Gogs etc.",
-    "description" : "<p>If we run multiple web application such as nextcloud and gogs with many ports on one NGINX server, contacting these application with subpath is elegant.</p>",
+    "name" : "gSLIC Build Error.",
+    "headline" : "gSLIC Build Error.",
+    "description" : "<p>If you got this error when you build the gSLIC superpixel segmentation algrithm:</p>
+
+<pre><code>/usr/include/c++/5/bits/stl_algobase.h:549:18: error: ambiguous overload for 'operator=' (operand types are 'cv::Rect_&lt;int&gt;' and 'cv::Rect_&lt;int&gt;')
+</code></pre>",
     "inLanguage" : "en-us",
     "author" : "Geoffrey Chen",
     "creator" : "Geoffrey Chen",
@@ -56,8 +59,8 @@
     "copyrightYear" : "2019",
     "datePublished": "2019-01-07 21:46:02 &#43;0000 UTC",
     "dateModified" : "2019-01-07 21:46:02 &#43;0000 UTC",
-    "url" : "https://geoch.top/2019/reverse-proxy-for-nginx/",
-    "wordCount" : "103",
+    "url" : "https://geoch.top/2019/build-error-with-opencv/",
+    "wordCount" : "37",
     "keywords" : [ "Eassy", "Geo&#39;s Blog"]
 }
 </script>
@@ -121,7 +124,7 @@
       		
 <article class="post-warp" itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">Reverse Proxy for Nextcloud, Gogs etc.</h1>
+        <h1 class="post-title" itemprop="name headline">gSLIC Build Error.</h1>
         <div class="post-meta">
                 Written by <a itemprop="name" href="https://geoch.top/" rel="author">Geoffrey Chen</a> with ♥ 
                 <span class="post-time">
@@ -151,34 +154,14 @@
           
           
 
-          <p>If we run multiple web application such as nextcloud and gogs with many ports on one NGINX server, contacting these application with subpath is elegant.</p>
+          <p>If you got this error when you build the gSLIC superpixel segmentation algrithm:</p>
 
-<h2 id="nginx-config">Nginx Config</h2>
-
-<p>Suppose that the nextcloud port is 8080 in my server.</p>
-
-<pre><code>server {
-listen       80 default_server;
-listen       [::]:80 default_server;
-server_name  _;
-root         /var/www/html;
-
-location /nextcloud/ {
-    proxy_pass http://127.0.0.1:8080/;
-    proxy_redirect off;
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header Remote_addr $remote_addr;
-}
+<pre><code>/usr/include/c++/5/bits/stl_algobase.h:549:18: error: ambiguous overload for 'operator=' (operand types are 'cv::Rect_&lt;int&gt;' and 'cv::Rect_&lt;int&gt;')
 </code></pre>
 
-<p>After create the new configrition, we need to change the setting of Nextcloud. This step can solve the 404 problem of all the static files(css/js etc.)</p>
+<p>Just add this command in <code>CMakeLists.txt</code> and rebuild them:</p>
 
-<pre><code># config.php
-
-'overwritewebroot' =&gt; '/nextcloud',
+<pre><code>set (CMAKE_CXX_STANDARD 11)
 </code></pre>
     </div>
 
@@ -193,7 +176,7 @@ location /nextcloud/ {
              
             <p class="copyright-item">
                     <span>Link:</span>
-                    <a href=https://geoch.top/2019/reverse-proxy-for-nginx/>https://geoch.top/2019/reverse-proxy-for-nginx/</span>
+                    <a href=https://geoch.top/2019/build-error-with-opencv/>https://geoch.top/2019/build-error-with-opencv/</span>
             </p>
             
             
@@ -218,8 +201,10 @@ location /nextcloud/ {
 
     <div class="post-nav">
         
-        <a href="https://geoch.top/2019/build-error-with-opencv/" class="prev" rel="prev" title="gSLIC Build Error."><i class="iconfont icon-left"></i>&nbsp;gSLIC Build Error.</a>
+        <a href="https://geoch.top/2018/torchrecord/" class="prev" rel="prev" title="TorchRecord"><i class="iconfont icon-left"></i>&nbsp;TorchRecord</a>
          
+        
+        <a href="https://geoch.top/2019/reverse-proxy-for-nginx/" class="next" rel="next" title="Reverse Proxy for Nextcloud, Gogs etc.">Reverse Proxy for Nextcloud, Gogs etc.&nbsp;<i class="iconfont icon-right"></i></a>
         
     </div>
 
