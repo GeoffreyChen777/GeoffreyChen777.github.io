@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Geoffrey.Chen">
+  
+  <meta name="keywords" content="deeplearning computervision">
+  
+  <link rel="prev" href="https://geoch.top/probabilistic-graphical-models/probabilistic-graphical-models-2/" />
+  
+  <link rel="canonical" href="https://geoch.top/probabilistic-graphical-models/probabilistic-graphical-models-3/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           Probabilistic Graphical Models (3) | Geo&#39;s Blog
+       
+  </title>
+  <meta name="title" content="Probabilistic Graphical Models (3) | Geo&#39;s Blog">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/geoch.top\/"
+    },
+    "articleSection" : "Probabilistic Graphical Models",
+    "name" : "Probabilistic Graphical Models (3)",
+    "headline" : "Probabilistic Graphical Models (3)",
+    "description" : "\x3cp\x3eReasoning Patterns and Flow of Probabilistic Influence\x3c\/p\x3e",
+    "inLanguage" : "en-us",
+    "author" : "Geoffrey Chen",
+    "creator" : "Geoffrey Chen",
+    "publisher": "Geoffrey Chen",
+    "accountablePerson" : "Geoffrey Chen",
+    "copyrightHolder" : "Geoffrey Chen",
+    "copyrightYear" : "2018",
+    "datePublished": "2018-03-03 20:06:15 \x2b0000 UTC",
+    "dateModified" : "2018-03-03 20:06:15 \x2b0000 UTC",
+    "url" : "https:\/\/geoch.top\/probabilistic-graphical-models\/probabilistic-graphical-models-3\/",
+    "wordCount" : "129",
+    "keywords" : [ "PGMs", "Geo\x27s Blog"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-tag"></i></a>&nbsp;<a href="https://geoch.top/">Geo&#39;s Blog</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="https://github.com/GeoffreyChen777" title="">Github</a>
+                
+                <a class="menu-item" href="/about/" title="About Me">About Me</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://geoch.top/">Geo&#39;s Blog</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="https://github.com/GeoffreyChen777" title="">Github</a>
+                
+                <a class="menu-item" href="/about/" title="About Me">About Me</a>
+                
+        </div>
+    </div>
+</nav>
+
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Probabilistic Graphical Models (3)</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://geoch.top/" rel="author">Geoffrey Chen</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2018-03-03 itemprop="datePublished">March 3, 2018</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://geoch.top/categories/pgms/"> PGMs </a>
+                        
+                </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <p>Reasoning Patterns and Flow of Probabilistic Influence</p>
+
+<h2 id="推断-reasoning-patterns">推断 (Reasoning Patterns)</h2>
+
+<p>Reasoning Patterns，即推断，就是根据已知条件，来判断或者得到未知的信息。推断回答了如何使用 PGM。比如我们想知道，当 $E=e$ 时，事件 A 的概率分布，即求后验概率分布。</p>
+
+<p>推断有三种，分别是因果推断，证据推断，交叉推断。</p>
+
+<h3 id="因果推断">因果推断</h3>
+
+<p>在 PGM 中，通常用边表示关系，贝叶斯网络中，有向边的起始就是因，结束就是果。比如学生例子中，智商低，课程难，那么就很容易得到低分，低分又会导致拿不到好的推荐信。这可以通过概率计算表现出来，可以看到因果推断是按照贝叶斯网络中箭头的方向进行推断的。</p>
+
+<h3 id="证据推断">证据推断</h3>
+
+<p>即根据结果，推断可能的原因，在贝叶斯网络中逆向推断。比如，学生得到了较低的 SAT 分数，那么他智力不高的可能性就上升了。</p>
+
+<h3 id="交叉因果推断">交叉因果推断</h3>
+
+<p>假设学生课程成绩很低，但是课程同时很难，那么课程同时很难这个信息会传播到智力节点，根据这两个信息，推断导致学生智力高的概率有略微升高。</p>
+
+<p>我们可以隐约的感觉到，在贝叶斯网络中，似乎存在着某种流动，在各个节点中，一个节点的变化，随着流动，传播影响着别的节点，这就是接下来要介绍的：Flow of Probabilistic Influence.</p>
+
+<h2 id="概率影响的流动-flow-of-probabilistic-influence">概率影响的流动 (Flow of Probabilistic Influence)</h2>
+
+<p>根据概率影响的流动，我们可以判定出随机变量之间的独立性。独立性和依赖性是很重要的两个属性。</p>
+
+<p>根据公开课中的例子，考虑随机变量 X，W，Y。我们来讨论什么情况下，X 可以 影响 Y。</p>
+
+<p>显然如果在贝叶斯网络中，X 与 Y 之间有边，无论箭头指向如何，他们都不是相互独立的。</p>
+
+<p>讨论集中在 X 和 Y 中如果有中间随机变量 W，那么他们之间会如何影响。要分 W 是否被观测分别讨论。</p>
+
+<ul>
+<li>W 没被观测</li>
+<li>\(X \to W \to Y\) ✔</li>
+<li>\(X \gets W \gets Y\) ✔
+显然这两种情况是可以的</li>
+<li>\(X \gets W \to Y\) ✔
+这种情况，举个例子，就是智力(I)和课程分数(G)以及 SAT 分数(S)之间的关系，当智力未知的时候，SAT 分数高，我们会自然而然的认为智力高，从而导致获得课程分数高的可能性增大。反之同理。</li>
+<li>\(X \to W \gets Y\) ✘
+这是课程难度(D)，智力(I)，与课程分数(G)的关系。如果课程难度升高，在得分未知的情况下，我们没有任何理由去可靠的推理智力是怎么样的。</li>
+<li>W 被观测</li>
+<li>\(X \to W \to Y\) ✘</li>
+<li>\(X \gets W \gets Y\) ✘
+这两种情况中，结果无论是 X 还是 Y 都只能由 W 影响。</li>
+<li>\(X \gets W \to Y\) ✘
+这种情况，虽然 SAT 分数很高，但是由于智力被观测到了，假设很低，所以分数受到智力低的影响，低分概率会增大。SAT 分数高可能是其他未知因素影响的。</li>
+<li>\(X \to W \gets Y\) ✔
+这种情况下刚好相反。因为课程分数(G)被观测了，假如难度(D)大，那么可能智商就不太高，反之同理。
+根据这些不同结构的独立性，可以定义 Active Trial (激活轨迹)。感性的理解就是可以传播影响的路线。不同的结构之间可以相互组合，激活连通性可以类推。</li>
+</ul>
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Geoffrey.Chen </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://geoch.top/probabilistic-graphical-models/probabilistic-graphical-models-3/>https://geoch.top/probabilistic-graphical-models/probabilistic-graphical-models-3/</span>
+            </p>
+            
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+            <section>
+            <i class="iconfont icon-tag"></i>Tag(s): 
+            
+            <span class="tag"><a href="https://geoch.top/tags/pgms/">
+                    #PGMs</a></span>
+            
+            </section>
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://geoch.top/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://geoch.top/probabilistic-graphical-models/probabilistic-graphical-models-2/" class="prev" rel="prev" title="Probabilistic Graphical Models (2)"><i class="iconfont icon-left"></i>&nbsp;Probabilistic Graphical Models (2)</a>
+         
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2017 - 2019</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://geoch.top/">Geoffrey.Chen</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+     </div>
+  </body>
+</html>

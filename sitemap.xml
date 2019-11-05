@@ -102,7 +102,7 @@
     </url>
   
     <url>
-      <loc>https://geoch.top/tags/essay/</loc>
+      <loc>https://geoch.top/categories/essay/</loc>
       
       <lastmod>2018-12-28T12:11:02+00:00</lastmod>
       
@@ -112,7 +112,7 @@
     </url>
   
     <url>
-      <loc>https://geoch.top/categories/essay/</loc>
+      <loc>https://geoch.top/tags/essay/</loc>
       
       <lastmod>2018-12-28T12:11:02+00:00</lastmod>
       
@@ -152,7 +152,7 @@
     </url>
   
     <url>
-      <loc>https://geoch.top/probabilistic-graphical-models-3/</loc>
+      <loc>https://geoch.top/probabilistic-graphical-models/</loc>
       
       <lastmod>2018-03-03T20:06:15+00:00</lastmod>
       
@@ -162,7 +162,17 @@
     </url>
   
     <url>
-      <loc>https://geoch.top/probabilistic-graphical-models-2/</loc>
+      <loc>https://geoch.top/probabilistic-graphical-models/probabilistic-graphical-models-3/</loc>
+      
+      <lastmod>2018-03-03T20:06:15+00:00</lastmod>
+      
+      
+      
+      
+    </url>
+  
+    <url>
+      <loc>https://geoch.top/probabilistic-graphical-models/probabilistic-graphical-models-2/</loc>
       
       <lastmod>2018-03-02T20:06:15+00:00</lastmod>
       
@@ -172,7 +182,7 @@
     </url>
   
     <url>
-      <loc>https://geoch.top/probabilistic-graphical-models-1/</loc>
+      <loc>https://geoch.top/probabilistic-graphical-models/probabilistic-graphical-models-1/</loc>
       
       <lastmod>2018-03-01T20:06:15+00:00</lastmod>
       
