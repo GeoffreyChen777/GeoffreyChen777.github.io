@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Geoffrey.Chen">
+  
+  <meta name="keywords" content="deeplearning computervision">
+  
+  <link rel="prev" href="https://geoch.top/newlook/" />
+  <link rel="next" href="https://geoch.top/reverse-proxy-for-nginx/" />
+  <link rel="canonical" href="https://geoch.top/torchrecord/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           TorchRecord | Geo&#39;s Blog
+       
+  </title>
+  <meta name="title" content="TorchRecord | Geo&#39;s Blog">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/geoch.top\/"
+    },
+    "articleSection" : "",
+    "name" : "TorchRecord",
+    "headline" : "TorchRecord",
+    "description" : "\x3cp\x3eIn order to boost the performance of data loading in PyTorch. I write TorchRecord which is similar to the TFRecord of Tensorflow.\x3c\/p\x3e",
+    "inLanguage" : "en-us",
+    "author" : "Geoffrey Chen",
+    "creator" : "Geoffrey Chen",
+    "publisher": "Geoffrey Chen",
+    "accountablePerson" : "Geoffrey Chen",
+    "copyrightHolder" : "Geoffrey Chen",
+    "copyrightYear" : "2018",
+    "datePublished": "2018-12-30 21:46:02 \x2b0000 UTC",
+    "dateModified" : "2018-12-30 21:46:02 \x2b0000 UTC",
+    "url" : "https:\/\/geoch.top\/torchrecord\/",
+    "wordCount" : "366",
+    "keywords" : [ "PyTorch", "Geo\x27s Blog"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-tag"></i></a>&nbsp;<a href="https://geoch.top/">Geo&#39;s Blog</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="https://github.com/GeoffreyChen777" title="">Github</a>
+                
+                <a class="menu-item" href="/about/" title="About Me">About Me</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://geoch.top/">Geo&#39;s Blog</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="https://github.com/GeoffreyChen777" title="">Github</a>
+                
+                <a class="menu-item" href="/about/" title="About Me">About Me</a>
+                
+        </div>
+    </div>
+</nav>
+
+    	 <main class="main">
+          <div class="container">
+      		
+<div class="post-warp archive">
+    <h2 class="post-title" style="text-align:right;padding-bottom:2em">TorchRecord</h2>
+    <div class="post-content">
+        <p>In order to boost the performance of data loading in PyTorch. I write TorchRecord which is similar to the TFRecord of Tensorflow.</p>
+
+<p>You can find the TorchRecord project at <a href="https://github.com/GeoffreyChen777/TorchRecord" rel="nofollow noreferrer" target="_blank">here</a>.</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Following the design of TFRecord and caffe data storage, I choose <strong>Protocol Buffers</strong> which is a data interchange format developed by Google as the storage format of TorchRecord. <strong>Protocol Buffers</strong> can encode a set of Python objects into byte string and decoding it likes shooting fish in a barrel. Then, I insert all the byte strings into the LMDB(Lighting Memory-Mapping Database). Finally, we can select items in this database and decode them to the original objects.</p>
+
+<h2 id="protocol-buffers">Protocol Buffers</h2>
+
+<p>I choose <code>TensorProtos</code> in caffe2 as the default proto. You can find the detail at <a href="https://github.com/pytorch/pytorch/blob/a0d22b6965b53e5dd1db8307ebb4f022f4bcbcbe/caffe2/proto/caffe2.proto#L134" rel="nofollow noreferrer" target="_blank">here</a>.</p>
+
+<h2 id="random-training">Random Training</h2>
+
+<p>Most of the deep learninig models require random training. The dataloader need to ensure that it can provide random index of the dataset for each training epoch. The easiest way is generating the random index number and using the <code>get()</code> api of LMDB to get items in the database. But <code>get()</code> is very slow.</p>
+
+<p>Finally, in TorchRecord, I shuffle the dataset in two steps：</p>
+
+<ol>
+<li>Shuffle the data before inserting them into the database.</li>
+<li>Get the items in database sequentially by <code>Cursor</code>. <code>Cursor</code> can construct a sequential iterator and it is faster than <code>get()</code>. Then, build a buffer pool and put items into this pool. The buffer pool will be shuffled every time after inserting an item. Finally, popping a random item as the training example.</li>
+</ol>
+
+<p>Following the above steps, we can obtain a shuffled sequence of the dataset.</p>
+
+<h2 id="working-process">Working Process</h2>
+
+<p>The main process will generate an index sequence(e.g. 1, 2, 3&hellip;n) and distribute them to every working process. Each working process will construct a cursor of lmdb and will seek to the location of current index number. After that, all the shuffling, decoding and transforming stuff will be done in each sub process.</p>
+
+<h2 id="benchmark">Benchmark</h2>
+
+<p>I test the TorchRecord at Intel&reg; Xeon&reg; CPU E5-2603 0 @ 1.80GHz 4core with 32 GB Mem.</p>
+
+<ul>
+<li>num_workers = 2:<br />
+Conventional: [00:42&lt;00:00,  8.72it/s]<br />
+<strong>TorchRecord: [00:21&lt;00:00, 16.91it/s]</strong></li>
+<li>num_workers = 4:<br />
+Conventional: [00:22&lt;00:00, 16.16it/s]<br />
+<strong>TorchRecord: [00:13&lt;00:00, 26.73it/s]</strong></li>
+</ul>
+
+<p>Obviously, TorchRecord is about 2x faster than the conventional dataloader.</p>
+    </div>
+</div>
+
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2017 - 2019</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://geoch.top/">Geoffrey.Chen</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+     </div>
+  </body>
+</html>

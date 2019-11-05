@@ -9,12 +9,406 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>Posts</title>
-      <link>https://geoch.top/posts/</link>
+      <title>gSLIC Build Error.</title>
+      <link>https://geoch.top/build-error-with-opencv/</link>
       <pubDate>Mon, 07 Jan 2019 21:46:02 +0000</pubDate>
       
-      <guid>https://geoch.top/posts/</guid>
-      <description></description>
+      <guid>https://geoch.top/build-error-with-opencv/</guid>
+      <description>&lt;p&gt;If you got this error when you build the gSLIC superpixel segmentation algrithm:&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;/usr/include/c++/5/bits/stl&lt;em&gt;algobase.h:549:18: error: ambiguous overload for &amp;lsquo;operator=&amp;rsquo; (operand types are &amp;lsquo;cv::Rect&lt;/em&gt;&lt;int&gt;&amp;rsquo; and &amp;lsquo;cv::Rect_&lt;int&gt;&amp;rsquo;)&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Just add this command in &lt;code&gt;CMakeLists.txt&lt;/code&gt; and rebuild them:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;set (CMAKE_CXX_STANDARD 11)
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
+      <title>Reverse Proxy for Nextcloud, Gogs etc.</title>
+      <link>https://geoch.top/reverse-proxy-for-nginx/</link>
+      <pubDate>Mon, 07 Jan 2019 21:46:02 +0000</pubDate>
+      
+      <guid>https://geoch.top/reverse-proxy-for-nginx/</guid>
+      <description>&lt;p&gt;If we run multiple web application such as nextcloud and gogs with many ports on one NGINX server, contacting these application with subpath is elegant.&lt;/p&gt;
+
+&lt;h2 id=&#34;nginx-config&#34;&gt;Nginx Config&lt;/h2&gt;
+
+&lt;p&gt;Suppose that the nextcloud port is 8080 in my server.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;server {
+listen       80 default_server;
+listen       [::]:80 default_server;
+server_name  _;
+root         /var/www/html;
+
+location /nextcloud/ {
+    proxy_pass http://127.0.0.1:8080/;
+    proxy_redirect off;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Remote_addr $remote_addr;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;After create the new configrition, we need to change the setting of Nextcloud. This step can solve the 404 problem of all the static files(css/js etc.)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# config.php
+
+&#39;overwritewebroot&#39; =&amp;gt; &#39;/nextcloud&#39;,
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
+      <title>TorchRecord</title>
+      <link>https://geoch.top/torchrecord/</link>
+      <pubDate>Sun, 30 Dec 2018 21:46:02 +0000</pubDate>
+      
+      <guid>https://geoch.top/torchrecord/</guid>
+      <description>&lt;p&gt;In order to boost the performance of data loading in PyTorch. I write TorchRecord which is similar to the TFRecord of Tensorflow.&lt;/p&gt;
+
+&lt;p&gt;You can find the TorchRecord project at &lt;a href=&#34;https://github.com/GeoffreyChen777/TorchRecord&#34; rel=&#34;nofollow noreferrer&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;Following the design of TFRecord and caffe data storage, I choose &lt;strong&gt;Protocol Buffers&lt;/strong&gt; which is a data interchange format developed by Google as the storage format of TorchRecord. &lt;strong&gt;Protocol Buffers&lt;/strong&gt; can encode a set of Python objects into byte string and decoding it likes shooting fish in a barrel. Then, I insert all the byte strings into the LMDB(Lighting Memory-Mapping Database). Finally, we can select items in this database and decode them to the original objects.&lt;/p&gt;
+
+&lt;h2 id=&#34;protocol-buffers&#34;&gt;Protocol Buffers&lt;/h2&gt;
+
+&lt;p&gt;I choose &lt;code&gt;TensorProtos&lt;/code&gt; in caffe2 as the default proto. You can find the detail at &lt;a href=&#34;https://github.com/pytorch/pytorch/blob/a0d22b6965b53e5dd1db8307ebb4f022f4bcbcbe/caffe2/proto/caffe2.proto#L134&#34; rel=&#34;nofollow noreferrer&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;random-training&#34;&gt;Random Training&lt;/h2&gt;
+
+&lt;p&gt;Most of the deep learninig models require random training. The dataloader need to ensure that it can provide random index of the dataset for each training epoch. The easiest way is generating the random index number and using the &lt;code&gt;get()&lt;/code&gt; api of LMDB to get items in the database. But &lt;code&gt;get()&lt;/code&gt; is very slow.&lt;/p&gt;
+
+&lt;p&gt;Finally, in TorchRecord, I shuffle the dataset in two steps：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Shuffle the data before inserting them into the database.&lt;/li&gt;
+&lt;li&gt;Get the items in database sequentially by &lt;code&gt;Cursor&lt;/code&gt;. &lt;code&gt;Cursor&lt;/code&gt; can construct a sequential iterator and it is faster than &lt;code&gt;get()&lt;/code&gt;. Then, build a buffer pool and put items into this pool. The buffer pool will be shuffled every time after inserting an item. Finally, popping a random item as the training example.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Following the above steps, we can obtain a shuffled sequence of the dataset.&lt;/p&gt;
+
+&lt;h2 id=&#34;working-process&#34;&gt;Working Process&lt;/h2&gt;
+
+&lt;p&gt;The main process will generate an index sequence(e.g. 1, 2, 3&amp;hellip;n) and distribute them to every working process. Each working process will construct a cursor of lmdb and will seek to the location of current index number. After that, all the shuffling, decoding and transforming stuff will be done in each sub process.&lt;/p&gt;
+
+&lt;h2 id=&#34;benchmark&#34;&gt;Benchmark&lt;/h2&gt;
+
+&lt;p&gt;I test the TorchRecord at Intel&amp;reg; Xeon&amp;reg; CPU E5-2603 0 @ 1.80GHz 4core with 32 GB Mem.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;num_workers = 2:&lt;br /&gt;
+Conventional: [00:42&amp;lt;00:00,  8.72it/s]&lt;br /&gt;
+&lt;strong&gt;TorchRecord: [00:21&amp;lt;00:00, 16.91it/s]&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;num_workers = 4:&lt;br /&gt;
+Conventional: [00:22&amp;lt;00:00, 16.16it/s]&lt;br /&gt;
+&lt;strong&gt;TorchRecord: [00:13&amp;lt;00:00, 26.73it/s]&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Obviously, TorchRecord is about 2x faster than the conventional dataloader.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>New Look</title>
+      <link>https://geoch.top/newlook/</link>
+      <pubDate>Fri, 28 Dec 2018 12:11:02 +0000</pubDate>
+      
+      <guid>https://geoch.top/newlook/</guid>
+      <description>&lt;p&gt;I dressed up this blog.&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;p&gt;I choose HUGO with LeaveIt theme to rebuild this blog. HUGO is really faster than HEXO.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Probabilistic Graphical Models (3)</title>
+      <link>https://geoch.top/probabilistic-graphical-models-3/</link>
+      <pubDate>Sat, 03 Mar 2018 20:06:15 +0000</pubDate>
+      
+      <guid>https://geoch.top/probabilistic-graphical-models-3/</guid>
+      <description>&lt;p&gt;Reasoning Patterns and Flow of Probabilistic Influence&lt;/p&gt;
+
+&lt;h2 id=&#34;推断-reasoning-patterns&#34;&gt;推断 (Reasoning Patterns)&lt;/h2&gt;
+
+&lt;p&gt;Reasoning Patterns，即推断，就是根据已知条件，来判断或者得到未知的信息。推断回答了如何使用 PGM。比如我们想知道，当 $E=e$ 时，事件 A 的概率分布，即求后验概率分布。&lt;/p&gt;
+
+&lt;p&gt;推断有三种，分别是因果推断，证据推断，交叉推断。&lt;/p&gt;
+
+&lt;h3 id=&#34;因果推断&#34;&gt;因果推断&lt;/h3&gt;
+
+&lt;p&gt;在 PGM 中，通常用边表示关系，贝叶斯网络中，有向边的起始就是因，结束就是果。比如学生例子中，智商低，课程难，那么就很容易得到低分，低分又会导致拿不到好的推荐信。这可以通过概率计算表现出来，可以看到因果推断是按照贝叶斯网络中箭头的方向进行推断的。&lt;/p&gt;
+
+&lt;h3 id=&#34;证据推断&#34;&gt;证据推断&lt;/h3&gt;
+
+&lt;p&gt;即根据结果，推断可能的原因，在贝叶斯网络中逆向推断。比如，学生得到了较低的 SAT 分数，那么他智力不高的可能性就上升了。&lt;/p&gt;
+
+&lt;h3 id=&#34;交叉因果推断&#34;&gt;交叉因果推断&lt;/h3&gt;
+
+&lt;p&gt;假设学生课程成绩很低，但是课程同时很难，那么课程同时很难这个信息会传播到智力节点，根据这两个信息，推断导致学生智力高的概率有略微升高。&lt;/p&gt;
+
+&lt;p&gt;我们可以隐约的感觉到，在贝叶斯网络中，似乎存在着某种流动，在各个节点中，一个节点的变化，随着流动，传播影响着别的节点，这就是接下来要介绍的：Flow of Probabilistic Influence.&lt;/p&gt;
+
+&lt;h2 id=&#34;概率影响的流动-flow-of-probabilistic-influence&#34;&gt;概率影响的流动 (Flow of Probabilistic Influence)&lt;/h2&gt;
+
+&lt;p&gt;根据概率影响的流动，我们可以判定出随机变量之间的独立性。独立性和依赖性是很重要的两个属性。&lt;/p&gt;
+
+&lt;p&gt;根据公开课中的例子，考虑随机变量 X，W，Y。我们来讨论什么情况下，X 可以 影响 Y。&lt;/p&gt;
+
+&lt;p&gt;显然如果在贝叶斯网络中，X 与 Y 之间有边，无论箭头指向如何，他们都不是相互独立的。&lt;/p&gt;
+
+&lt;p&gt;讨论集中在 X 和 Y 中如果有中间随机变量 W，那么他们之间会如何影响。要分 W 是否被观测分别讨论。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;W 没被观测&lt;/li&gt;
+&lt;li&gt;\(X \to W \to Y\) ✔&lt;/li&gt;
+&lt;li&gt;\(X \gets W \gets Y\) ✔
+显然这两种情况是可以的&lt;/li&gt;
+&lt;li&gt;\(X \gets W \to Y\) ✔
+这种情况，举个例子，就是智力(I)和课程分数(G)以及 SAT 分数(S)之间的关系，当智力未知的时候，SAT 分数高，我们会自然而然的认为智力高，从而导致获得课程分数高的可能性增大。反之同理。&lt;/li&gt;
+&lt;li&gt;\(X \to W \gets Y\) ✘
+这是课程难度(D)，智力(I)，与课程分数(G)的关系。如果课程难度升高，在得分未知的情况下，我们没有任何理由去可靠的推理智力是怎么样的。&lt;/li&gt;
+&lt;li&gt;W 被观测&lt;/li&gt;
+&lt;li&gt;\(X \to W \to Y\) ✘&lt;/li&gt;
+&lt;li&gt;\(X \gets W \gets Y\) ✘
+这两种情况中，结果无论是 X 还是 Y 都只能由 W 影响。&lt;/li&gt;
+&lt;li&gt;\(X \gets W \to Y\) ✘
+这种情况，虽然 SAT 分数很高，但是由于智力被观测到了，假设很低，所以分数受到智力低的影响，低分概率会增大。SAT 分数高可能是其他未知因素影响的。&lt;/li&gt;
+&lt;li&gt;\(X \to W \gets Y\) ✔
+这种情况下刚好相反。因为课程分数(G)被观测了，假如难度(D)大，那么可能智商就不太高，反之同理。
+根据这些不同结构的独立性，可以定义 Active Trial (激活轨迹)。感性的理解就是可以传播影响的路线。不同的结构之间可以相互组合，激活连通性可以类推。&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>Probabilistic Graphical Models (2)</title>
+      <link>https://geoch.top/probabilistic-graphical-models-2/</link>
+      <pubDate>Fri, 02 Mar 2018 20:06:15 +0000</pubDate>
+      
+      <guid>https://geoch.top/probabilistic-graphical-models-2/</guid>
+      <description>&lt;p&gt;This post is about beyasie network.&lt;/p&gt;
+
+&lt;h2 id=&#34;贝叶斯网概览&#34;&gt;贝叶斯网概览&lt;/h2&gt;
+
+&lt;p&gt;贝叶斯网络是概率图模型中很重要的两种模型之一。基于贝叶斯公式构建起来的。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2018/03/02/5a98fef7a365e.jpg&#34; alt=&#34;student.jpg&#34; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;该例子来自 Daphne Koller 的公开课，同时推荐仔细学习该公开课。本系列文章也是跟着课程的内容前进的，原视频没有中文字幕，可以在不明白的地方翻阅本系列文章补充。再次感谢 Daphne Koller 教授和她的课程。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;上图是我们整个学习中，最为常用的也很好理解的一个贝叶斯网络例子。&lt;/p&gt;
+
+&lt;p&gt;该图表达了五个不同的随机变量和他们之间的关系。描述了这样一件事：课程的难度(Difficulty)和一个学生的智商(Intelligence)会对他这门课的课程成绩有影响，同时他的智商也会影响到他的 SAT 分数。课程的成绩同时会影响到教授给他的推荐信。整个网络的架构很合理，跟符合人们生活的认知。比如课程难度没法直接影响教授的推荐信，只能通过课程成绩间接影响。&lt;/p&gt;
+
+&lt;p&gt;可以看出，贝叶斯网是由节点和有向边组成的一个图，同时要求不能有闭环。每个节点都有配的一个相关节点组成的条件概率分布。所以贝叶斯网的完整定义是：&lt;strong&gt;A directed acyclic graph G whose nodes represent the random variables $X&lt;em&gt;{1},X&lt;/em&gt;{2}&amp;hellip;,X&lt;em&gt;{n}$. For each node $X&lt;/em&gt;{i}$ a CPD $P(X&lt;em&gt;{i}|Par&lt;/em&gt;{G}(X_{i}))$.&lt;/strong&gt; 贝叶斯网通过链式法则，表达了一个众多随机变量的联合概率分布，接下来说说什么是链式法则。&lt;/p&gt;
+
+&lt;h2 id=&#34;链式法则-chain-rule&#34;&gt;链式法则(Chain Rule)&lt;/h2&gt;
+
+&lt;p&gt;概率论中的链式法则，是贝叶斯网的链式法则的构建基础。
+概率论中，链式法则是这样表述的：&lt;strong&gt;链式法则允许一个概率质量函数，可以分解为一些因子的乘积的形式，比如在随机变量 $X&lt;em&gt;{1}, X&lt;/em&gt;{2}, X_{3}$ 上的一个概率分布，可以写为如下形式&lt;/strong&gt;
+$$
+p(x&lt;em&gt;{1},x&lt;/em&gt;{2},x&lt;em&gt;{3})=p(x&lt;/em&gt;{1})p(x&lt;em&gt;{2}|x&lt;/em&gt;{1})p(x&lt;em&gt;{3}|x&lt;/em&gt;{1},x&lt;em&gt;{2})
+$$
+即，
+$$
+p(x&lt;/em&gt;{1},x&lt;em&gt;{2},&amp;hellip;,x&lt;/em&gt;{n})=\prod&lt;em&gt;{i=1}^{n}p(x&lt;/em&gt;{i}|x&lt;em&gt;{1},&amp;hellip;,x&lt;/em&gt;{i-1})
+$$&lt;/p&gt;
+
+&lt;p&gt;那么基于这个链式法则，我们上节例子中，贝叶斯网络所表示的联合概率分布 $P(D,I,G,L,S)$ 可以分解为如下形式：
+$$
+P(D,I,G,L,S)=P(D)P(I|D)P(G|D,I)P(L|D,I,G)P(S|D,I,G,L)
+$$
+同时贝叶斯网也表达了随机变量之间的关系，透露出了相互的独立性。比如 I 和 D 实际上是独立的，根据相互独立的随机变量的条件概率的性质，我们可以知道 $P(I|D)=P(I)$，同样其他的相互独立的随机变量都可以这么化简，最后联合概率分布化简为如下形式：
+$$
+P(D,I,G,L,S)=P(D)P(I)P(G|D,I)P(L|G)P(S| I)
+$$
+这个表达式就是贝叶斯网的链式法则了。&lt;/p&gt;
+
+&lt;p&gt;完整的定义是这样：&lt;strong&gt;令 G 为定义在 $$X_1,&amp;hellip;,X_n$$ 上的一个贝叶斯网。若 P 可表示为乘积 $P(X_1,&amp;hellip;X&lt;em&gt;n)=\prod&lt;/em&gt;{i=1}^{n}P(X&lt;em&gt;i|Pa&lt;/em&gt;{X_i}^{G})$, 则称分布 P 是关于图 G 在同一空间上的因子分解。该公式为贝叶斯网的链式法则。&lt;/strong&gt;（公式中 Pa 表示 Parents，父母节点的意思）&lt;/p&gt;
+
+&lt;h2 id=&#34;贝叶斯网络合法性证明&#34;&gt;贝叶斯网络合法性证明&lt;/h2&gt;
+
+&lt;p&gt;贝叶斯网表示了一个联合概率，所以为了证明其合法性，也就是证明这个联合概率的合法性。因此合法性要满足:
+1. 所有的概率都大于等于 0
+2. 概率和为 1&lt;/p&gt;
+
+&lt;p&gt;显然概率大于零是没问题的。概率和为 1 的证明需要用到上面的链式法则，我们把每一组随机变量取值对应的联合概率都加起来，结合链式法则得到如下式子：
+$$
+\sum&lt;em&gt;{D,I,G,L,S}P(D,I,G,L,S)=\sum&lt;/em&gt;{D,I,G,L,S}P(D)P(I)P(G|D,I)P(L|G)P(S|I)
+$$&lt;/p&gt;
+
+&lt;p&gt;把求和下标S移到相应的位置，可以得到：
+$$
+\sum&lt;em&gt;{D,I,G,L,S}P(D,I,G,L,S)=\sum&lt;/em&gt;{D,I,G,L}P(D)P(I)P(G|D,I)P(L|G)\sum_{S}P(S|I)
+$$&lt;/p&gt;
+
+&lt;p&gt;那么末尾的求和$\sum_{S}P(S|I)$显然等于1，以此类推，那么联合概率求和等于 1 得证。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Probabilistic Graphical Models (1)</title>
+      <link>https://geoch.top/probabilistic-graphical-models-1/</link>
+      <pubDate>Thu, 01 Mar 2018 20:06:15 +0000</pubDate>
+      
+      <guid>https://geoch.top/probabilistic-graphical-models-1/</guid>
+      <description>&lt;p&gt;In this article, we focus on three probabilities.&lt;/p&gt;
+
+&lt;p&gt;联合概率、条件概率和边缘概率，这三个不同的概率，是概率图模型中经常会讨论到的三个。&lt;/p&gt;
+
+&lt;p&gt;举个清晰明了的例子来分别说明。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2018/02/28/5a96bbd9246bf.png&#34; alt=&#34;MultivariateNormal.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;上图是两个随机变量的多元正态分布示意图。可以看到一共有两个随机变量，分别是 X 和 Y。&lt;/p&gt;
+
+&lt;p&gt;诸如正态分布这种连续的概率分布，理应用概率密度函数来描述。但是在此为了简化描述，我用如下的简化版的概率分布表来描述一个类似上图的正态分布。&lt;/p&gt;
+
+&lt;p&gt;假设随机变量 X 和 Y 的取值只有 [-2, 0, 2] 这三个值，所以概率分布表大概如下表所示：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2018/03/01/5a97e04a665ad.png&#34; alt=&#34;Screen Shot 2018-03-01 at 7.08.35 PM.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;联合概率&lt;/strong&gt;：$$P(X, Y)$$，就是该表中间部分白色底色的。其表示，多个随机变量同时满足其各自约束条件的概率。比如这个例子当中，X 和 Y 两个随机变量，分别都取 -2 时候的概率，或者说，在上面的分布图中，取样点落在某个特定点或者格子区域内的概率。这就是联合概率。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;条件概率&lt;/strong&gt;：在多随机变量的情况下，一部分变量决定了，作为先决条件的情况下，另外剩下的变量的概率分布，这就是条件概率分布，比如，当 $$X=-2$$ 时，Y 的概率分布，就是条件概率分布。在上表中，这个概率分布应该是：
+$$
+P(Y=-2|X=-2)=\frac{1}{4}，
+P(Y=-2|X=-2)=\frac{2}{4}，
+P(Y=-2|X=-2)=\frac{1}{4}
+$$
+特别的，如果随机变量 X 和 Y 是相互独立的，那么，条件概率等于边缘概率。即$$P(X|Y)=P(X)$$，因为 X 独立于 Y，所以 Y 无论怎么样，都不会影响到 X 的分布。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;边缘概率&lt;/strong&gt;：之所以叫边缘概率，是因为，边缘概率通常会卸载概率表的边缘。。。因为其通常是某些概率的加和。比如$$P(X)$$实际上是每行概率的加和。即 Y 所有情况都包括的情况下 X 取不同值的概率。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Where is the vector in word2vec-CBOW?</title>
+      <link>https://geoch.top/where-is-the-vector-in-word2vec-cbow/</link>
+      <pubDate>Sat, 02 Sep 2017 17:37:56 +0000</pubDate>
+      
+      <guid>https://geoch.top/where-is-the-vector-in-word2vec-cbow/</guid>
+      <description>&lt;p&gt;Where is the vector in word2vec-CBOW?&lt;/p&gt;
+
+&lt;p&gt;本周看的一篇论文，Incremental Dual-memory LSTM in Land Cover Prediction 中有提到使用了 word2vec 中的 CBOW 模型，进行标签序列的向量化，从而将标签序列信息加入到 LSTM 中。为此去理解 word2vec 中的 CBOW 模型。&lt;/p&gt;
+
+&lt;p&gt;CBOW 模型是 word2vec 的一种，用来建立词语的向量表示。CBOW 模型的输入为一个句子，扣除了其中一个单词的剩余其他词汇。之后用这几个上下文的词汇对扣去的词汇进行预测。整体效果如图所示&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2017/09/02/59aa78ca385a0.png&#34; alt=&#34;TIM截图20170902172413.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;可以发现，CBOW 模型，更像是用来根据上下文进行单词的推断。那么我们之前不是说 word2vec 是用来将单词转化为向量的么，为什么这里就变成了单词推断？&lt;/p&gt;
+
+&lt;p&gt;实质上，单词推断只是 CBOW 模型的&lt;strong&gt;伪任务&lt;/strong&gt;。我们想得到的是在推断运算过程中的那个权重矩阵，而不是最后推断出的单词。最后推断出的单词，只是帮助我们进行损失计算，从而反向传播进行调参的。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2017/09/02/59aa7af974190.png&#34; alt=&#34;TIM截图20170902173335.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;左侧是 one-hot 类型的输入词向量，之后紧跟的矩阵，就是我们想要的词向量矩阵。包括 skip-gram 模型的词向量矩阵也是同理。&lt;/p&gt;
+
+&lt;p&gt;有任何不对的地方，希望各位老师同学指正，谢谢！&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>A Beginner&#39;s Guide to CNN</title>
+      <link>https://geoch.top/a-beginner-s-guide-to-cnn/</link>
+      <pubDate>Fri, 05 May 2017 13:13:02 +0000</pubDate>
+      
+      <guid>https://geoch.top/a-beginner-s-guide-to-cnn/</guid>
+      <description>&lt;p&gt;This is the guide for the CNNs newbie.&lt;/p&gt;
+
+&lt;p&gt;上周在学校做了一个关于 CNN 的报告，主要内容是对卷积神经网络的一个新手指导。主要有以下三个部分：&lt;br /&gt;
+- Introduction&lt;br /&gt;
+- Structure&lt;br /&gt;
+- Other Tech&lt;/p&gt;
+
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;首先是第一部分 Introduction. 2012 年，是卷积神经网络取得显著成果的一年。Alex 和他的团队，用 AlexNet 在 ImageNet 比赛上将错误率从 26% 降低到 15%。从那时开始，许许多多的公司开始研究并且使用卷及神经网络。比如 Google、amazon、Facebook 等等，应用在图像搜索，商品推荐等诸多领域。&lt;/p&gt;
+
+&lt;p&gt;对于我本人来说，在我学习当中应用到的最多的是图像方面。&lt;/p&gt;
+
+&lt;p&gt;图像分类任务中要求我们做的是输入一张图片，经过一定的运算之后，计算机输出结果告诉我们这张图片是某种东西的概率。在人眼中，看到的是一张图，一个物体。机器眼中只不过是一些数字。人类通过图片中的线条，颜色等相互关系，判断是什么物体。这种行为是人类从小就开始培养的，看到一个东西，认识他是什么。机器同样也是通过对数字相互关系的分析，判断物体。机器在图像分类的训练过程同样是在模仿人类从小学习的过程，只不过人类用了几年学会，机器可能用几天。&lt;/p&gt;
+
+&lt;h2 id=&#34;structure&#34;&gt;Structure&lt;/h2&gt;
+
+&lt;p&gt;接下来，对基本的卷积神经网络的每一层，开始介绍。&lt;/p&gt;
+
+&lt;p&gt;关于每一层的操作，我也就不再赘述，网上有很多很多了。这篇文章主要讲一讲，为什么要有这些层，这些层都做了些什么。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;卷积层&lt;br /&gt;
+首先第一个，也就是最重要的一层，就是卷积层。卷积层可以看作是一个特征提取器，那么怎么样进行特征提取的呢？&lt;/p&gt;
+
+&lt;p&gt;看下面这张图。&lt;br /&gt;
+&lt;img src=&#34;https://ooo.0o0.ooo/2017/05/05/590c04b42d2c3.png&#34; height=&#34;200&#34; width=&#34;500&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;这是一个弧线一个拐角。表现在像素矩阵上就是其他地方为 0，线上的位置不为 0。那么我们假设想在一张图上提取出类似这种弧线的特征。怎么做呢？&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://ooo.0o0.ooo/2017/05/05/590c0443a29e2.png&#34; height=&#34;300&#34; width=&#34;500&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;看上面这个图一个老鼠，左上角位置的弧线和我们想要提取的特征很相似，左边的矩阵是这个位置的矩阵表示，右边是我们想提取的特征的矩阵表示也就是我们所说的卷积和。对应位置相乘并相加，就是我们说的卷积操作。结果是 6600。这是一个很大的数，想像一下，如果这部分不是这么一个弧线而是一个别的样子的，那么对应位置相乘相加之后，就只有很小的一个数了，通过这个结果的大小，我们可以得到这部分是不是有这个特定的特征存在。这就是特征提取。实际上这和我们人判断物体是什么是很相似的，我们也是通过寻找物体的线条颜色等特征，来判断物体是什么的。这就是为什么我们要用卷积层，我们用它来提取特征。&lt;/p&gt;
+
+&lt;p&gt;下面介绍两个卷积层中最重要的参数 Stride and Padding&lt;br /&gt;
+Stride 代表的是步长，就是卷积核在图片上移动的距离。可以控制输出的特征图的大小。&lt;br /&gt;
+在卷积的时候我们看到整个图片可以说是变得越来越小的，但是我们有时候不想让他缩小的太快，所以就要用 padding 这个参数。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;激活层&lt;br /&gt;
+接下来介绍激活层。激活层实际上是一个函数。那么为什么要有激活层的存在呢？我们可以假设，没有激活层，或者说激活层函数是 y = x。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://ooo.0o0.ooo/2017/05/05/590c05b5e363c.png&#34; height=&#34;250&#34; width=&#34;500&#34;&gt;&lt;br /&gt;
+&lt;img src=&#34;https://ooo.0o0.ooo/2017/05/05/590c05fa04137.png&#34; height=&#34;250&#34; width=&#34;500&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;在如图的二分类问题中，单层感知机无论怎么样都无法正确划分。同样带隐层的也无法划分，无论多少层，化简后都是一个线性函数，只不过斜率什么的变化了。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://ooo.0o0.ooo/2017/05/05/590c06599c8f9.png&#34; height=&#34;250&#34; width=&#34;500&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;但是如果加上激活函数，比如 sigmoid，就不再是线性的了，说不定就可以有这么样一条曲线，解决这个问题。&lt;/p&gt;
+
+&lt;p&gt;常用的函数有这些诸如 Sigmoid、ReLU等。ReLU 是最近比较火的一个激活函数，&lt;em&gt;Alex&lt;/em&gt; 在 &lt;em&gt;imagenet classification with deep convolutional&lt;/em&gt; 论文中也使用了这个激活函数，并说提高了训练速率，因为他不像 sigmoid 那样需要指数运算等耗费计算资源的运算，而且也没有 sigmoid 的梯度消失问题。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Pooling 层&lt;br /&gt;
+接下来就是同样重要的 Pooling 层了。Pooling 有很多种，比如 max or avg。那么为什么要有 pooling 层呢？Pooling 层有 3 个主要的作用。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;invariance&lt;br /&gt;
+首先第一个是 invariance ，即不变性，我们更多时候关注的是一个图片中是否有某种特征，而不是特征具体的位置。就像下面这个例子。虽然这个直线向右平移了一个元素，但是 pooling 后还是不变的，我们只关注直线这个特征，不关注他具体的位置。&lt;br /&gt;
+&lt;img src=&#34;https://ooo.0o0.ooo/2017/05/05/590c06d56c975.png&#34; height=&#34;450&#34; width=&#34;500&#34;&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;reduce parameters&lt;br /&gt;
+第二个作用是可以减少参数，参数数量会大幅度减少。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;overfitting&lt;br /&gt;
+另外一个作用是可以减缓过拟合。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Dropout 层&lt;br /&gt;
+Dropout 作用的机制是按照一定几率随机的将输出置为 0。可以暂时认为这些节点不是网络结构的一部分，但是它的权重得保留下来。Dropout 可以很好的缓解过拟合问题。比如在 AlexNet 论文中，随机忽略 0.5 的神经元。Dropout 可以看做是一种模型平均，就是把来自不同模型的估计或者预测通过一定的权重平均起来。Dropout中哪里体现了“不同模型”；这个奥秘就是我们随机选择忽略隐层节点，在每个批次的训练过程中，由于每次随机忽略的隐层节点都不同，这样就使每次训练的网络都是不一样的，每次训练都可以单做一个“新”的模型；此外，隐含节点都是以一定概率随机出现，因此不能保证每2个隐含节点每次都同时出现，这样权值的更新不再依赖于有固定关系隐含节点的共同作用，阻止了某些特征仅仅在其它特定特征下才有效果的情况。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;FC 层&lt;br /&gt;
+最后就是全连接层了，在整个卷积神经网络中起到“分类器”的作用。可以通过一个与特征图大小相同的卷积核卷积操作实现。由于 FC 参数众多，通常占据整个网络 80% 参数，近期人们找出许多方法来替代全连阶层，比如 全局均值池化等。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;other-tech&#34;&gt;Other Tech&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Deconv&lt;br /&gt;
+最后我介绍一些不同于传统 CNN 网络的有效提高性能的技术。比如反卷积操作。反卷积就是将卷积核转置后操作。通过反池化，反激活，反卷积之后，可以用于可视化卷积网络。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Transfer Learning&lt;br /&gt;
+当我们的数据量不像 google 等公司那样大的时候，可能无法取得好的训练效果。但转移学习的想法有助于减少数据需求。转移学习是采取预先训练的模型,以及使用自己的数据集“微调”模型的过程。这个想法是这个预先训练的模型将作为一个特征提取器。我们自己删除网络的最后一层，并将其替换为您自己的分类器。然后冻结所有其他层的权重并正常训练网络（冻结层意味着在梯度下降/优化期间不改变权重）。比如，ImageNet是一个数据集，其中包含1400万个图像，超过1000个类。当我们考虑网络的较低层时，我们知道它们会检测边缘和曲线等特征。除非我们有一个非常独特的问题空间和数据集，否则我们的网络也需要检测曲线和边缘。而不是通过随机初始化权重训练整个网络，我们可以使用预先训练的模型的权重（并冻结它们），并将重点放在更重要的层次上（更高的层次）进行训练。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Data Augmentation Techniques&lt;br /&gt;
+我们很清楚的知道数据的重要性。当我们数据集不够好，比如数量太少等问题的时候，训练效果可能会不好。这里有很多数据处理的方法可以增加数据量。对我们人类来说图像平移一像素，可能很难察觉出，但是对于计算机来说，平移一像素可能会影响很大。通过平移，镜像，旋转等方法，可以成倍的增加数据集大小。比如 Alex 在论文中采用碎片采样原始数据集四个角和中间位置来增大数据集。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Some Image are from &lt;a href=&#34;https://adeshpande3.github.io/&#34; rel=&#34;nofollow noreferrer&#34; target=&#34;_blank&#34;&gt;https://adeshpande3.github.io/&lt;/a&gt;&lt;br /&gt;
+    If there is any infringement please contact me as soon as possible to do delete processing.&lt;/p&gt;
+&lt;/blockquote&gt;</description>
     </item>
     
     <item>

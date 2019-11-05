@@ -13,10 +13,10 @@
     
     <item>
       <title>TorchRecord</title>
-      <link>https://geoch.top/2018/torchrecord/</link>
+      <link>https://geoch.top/torchrecord/</link>
       <pubDate>Sun, 30 Dec 2018 21:46:02 +0000</pubDate>
       
-      <guid>https://geoch.top/2018/torchrecord/</guid>
+      <guid>https://geoch.top/torchrecord/</guid>
       <description>&lt;p&gt;In order to boost the performance of data loading in PyTorch. I write TorchRecord which is similar to the TFRecord of Tensorflow.&lt;/p&gt;</description>
     </item>
     

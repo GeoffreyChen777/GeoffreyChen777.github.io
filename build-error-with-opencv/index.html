@@ -9,9 +9,9 @@
   
   <meta name="keywords" content="deeplearning computervision">
   
+  <link rel="prev" href="https://geoch.top/reverse-proxy-for-nginx/" />
   
-  
-  <link rel="canonical" href="https://geoch.top/tags/pytorch/" />
+  <link rel="canonical" href="https://geoch.top/build-error-with-opencv/" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -22,10 +22,10 @@
   <title>
        
        
-           PyTorch | Geo&#39;s Blog
+           gSLIC Build Error. | Geo&#39;s Blog
        
   </title>
-  <meta name="title" content="PyTorch | Geo&#39;s Blog">
+  <meta name="title" content="gSLIC Build Error. | Geo&#39;s Blog">
     
   
   <link rel="stylesheet" href="/font/iconfont.css">
@@ -33,11 +33,34 @@
 
 
   
-    <link href="https://geoch.top/tags/pytorch/index.xml" rel="alternate" type="application/rss+xml" title="Geo&#39;s Blog" />
-    <link href="https://geoch.top/tags/pytorch/index.xml" rel="feed" type="application/rss+xml" title="Geo&#39;s Blog" />
-  
   
  
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/geoch.top\/"
+    },
+    "articleSection" : "",
+    "name" : "gSLIC Build Error.",
+    "headline" : "gSLIC Build Error.",
+    "description" : "\x3cp\x3eIf you got this error when you build the gSLIC superpixel segmentation algrithm:\x3c\/p\x3e\n\n\x3cp\x3e\x3cem\x3e\/usr\/include\/c\x2b\x2b\/5\/bits\/stl\x3cem\x3ealgobase.h:549:18: error: ambiguous overload for \x26lsquo;operator=\x26rsquo; (operand types are \x26lsquo;cv::Rect\x3c\/em\x3e\x3cint\x3e\x26rsquo; and \x26lsquo;cv::Rect_\x3cint\x3e\x26rsquo;)\x3c\/em\x3e\x3c\/p\x3e",
+    "inLanguage" : "en-us",
+    "author" : "Geoffrey Chen",
+    "creator" : "Geoffrey Chen",
+    "publisher": "Geoffrey Chen",
+    "accountablePerson" : "Geoffrey Chen",
+    "copyrightHolder" : "Geoffrey Chen",
+    "copyrightYear" : "2019",
+    "datePublished": "2019-01-07 21:46:02 \x2b0000 UTC",
+    "dateModified" : "2019-01-07 21:46:02 \x2b0000 UTC",
+    "url" : "https:\/\/geoch.top\/build-error-with-opencv\/",
+    "wordCount" : "37",
+    "keywords" : [ "Eassy", "Geo\x27s Blog"]
+}
+</script>
 
 </head>
 
@@ -96,19 +119,18 @@
     	 <main class="main">
           <div class="container">
       		
-
 <div class="post-warp archive">
-    <h2 class="post-title" style="text-align:right;padding-bottom:2em">-&nbsp;Tags&nbsp;·&nbsp;PyTorch&nbsp;-</h2>
-    
-    <article class="archive-item">
-        <a href="https://geoch.top/torchrecord/" class="archive-item-link hvr-underline-from-center">TorchRecord</a>
-        <span class="archive-item-date">
-            December 30, 2018
-        </span>
-    </article>
-     
-    
+    <h2 class="post-title" style="text-align:right;padding-bottom:2em">gSLIC Build Error.</h2>
+    <div class="post-content">
+        <p>If you got this error when you build the gSLIC superpixel segmentation algrithm:</p>
 
+<p><em>/usr/include/c++/5/bits/stl<em>algobase.h:549:18: error: ambiguous overload for &lsquo;operator=&rsquo; (operand types are &lsquo;cv::Rect</em><int>&rsquo; and &lsquo;cv::Rect_<int>&rsquo;)</em></p>
+
+<p>Just add this command in <code>CMakeLists.txt</code> and rebuild them:</p>
+
+<pre><code>set (CMAKE_CXX_STANDARD 11)
+</code></pre>
+    </div>
 </div>
 
           </div>
@@ -141,8 +163,12 @@
 
 
 
+
     
-    <script src="/js/vendor_main.min.js" async=""></script>
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
 
 
 

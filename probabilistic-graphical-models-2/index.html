@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Geoffrey.Chen">
+  
+  <meta name="keywords" content="deeplearning computervision">
+  
+  <link rel="prev" href="https://geoch.top/probabilistic-graphical-models-1/" />
+  <link rel="next" href="https://geoch.top/probabilistic-graphical-models-3/" />
+  <link rel="canonical" href="https://geoch.top/probabilistic-graphical-models-2/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           Probabilistic Graphical Models (2) | Geo&#39;s Blog
+       
+  </title>
+  <meta name="title" content="Probabilistic Graphical Models (2) | Geo&#39;s Blog">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/geoch.top\/"
+    },
+    "articleSection" : "",
+    "name" : "Probabilistic Graphical Models (2)",
+    "headline" : "Probabilistic Graphical Models (2)",
+    "description" : "\x3cp\x3eThis post is about beyasie network.\x3c\/p\x3e",
+    "inLanguage" : "en-us",
+    "author" : "Geoffrey Chen",
+    "creator" : "Geoffrey Chen",
+    "publisher": "Geoffrey Chen",
+    "accountablePerson" : "Geoffrey Chen",
+    "copyrightHolder" : "Geoffrey Chen",
+    "copyrightYear" : "2018",
+    "datePublished": "2018-03-02 20:06:15 \x2b0000 UTC",
+    "dateModified" : "2018-03-02 20:06:15 \x2b0000 UTC",
+    "url" : "https:\/\/geoch.top\/probabilistic-graphical-models-2\/",
+    "wordCount" : "108",
+    "keywords" : [ "PGMs", "Geo\x27s Blog"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-tag"></i></a>&nbsp;<a href="https://geoch.top/">Geo&#39;s Blog</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="https://github.com/GeoffreyChen777" title="">Github</a>
+                
+                <a class="menu-item" href="/about/" title="About Me">About Me</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://geoch.top/">Geo&#39;s Blog</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="https://github.com/GeoffreyChen777" title="">Github</a>
+                
+                <a class="menu-item" href="/about/" title="About Me">About Me</a>
+                
+        </div>
+    </div>
+</nav>
+
+    	 <main class="main">
+          <div class="container">
+      		
+<div class="post-warp archive">
+    <h2 class="post-title" style="text-align:right;padding-bottom:2em">Probabilistic Graphical Models (2)</h2>
+    <div class="post-content">
+        <p>This post is about beyasie network.</p>
+
+<h2 id="贝叶斯网概览">贝叶斯网概览</h2>
+
+<p>贝叶斯网络是概率图模型中很重要的两种模型之一。基于贝叶斯公式构建起来的。</p>
+
+<p><img src="https://i.loli.net/2018/03/02/5a98fef7a365e.jpg" alt="student.jpg" /></p>
+
+<blockquote>
+<p>该例子来自 Daphne Koller 的公开课，同时推荐仔细学习该公开课。本系列文章也是跟着课程的内容前进的，原视频没有中文字幕，可以在不明白的地方翻阅本系列文章补充。再次感谢 Daphne Koller 教授和她的课程。</p>
+</blockquote>
+
+<p>上图是我们整个学习中，最为常用的也很好理解的一个贝叶斯网络例子。</p>
+
+<p>该图表达了五个不同的随机变量和他们之间的关系。描述了这样一件事：课程的难度(Difficulty)和一个学生的智商(Intelligence)会对他这门课的课程成绩有影响，同时他的智商也会影响到他的 SAT 分数。课程的成绩同时会影响到教授给他的推荐信。整个网络的架构很合理，跟符合人们生活的认知。比如课程难度没法直接影响教授的推荐信，只能通过课程成绩间接影响。</p>
+
+<p>可以看出，贝叶斯网是由节点和有向边组成的一个图，同时要求不能有闭环。每个节点都有配的一个相关节点组成的条件概率分布。所以贝叶斯网的完整定义是：<strong>A directed acyclic graph G whose nodes represent the random variables $X<em>{1},X</em>{2}&hellip;,X<em>{n}$. For each node $X</em>{i}$ a CPD $P(X<em>{i}|Par</em>{G}(X_{i}))$.</strong> 贝叶斯网通过链式法则，表达了一个众多随机变量的联合概率分布，接下来说说什么是链式法则。</p>
+
+<h2 id="链式法则-chain-rule">链式法则(Chain Rule)</h2>
+
+<p>概率论中的链式法则，是贝叶斯网的链式法则的构建基础。
+概率论中，链式法则是这样表述的：<strong>链式法则允许一个概率质量函数，可以分解为一些因子的乘积的形式，比如在随机变量 $X<em>{1}, X</em>{2}, X_{3}$ 上的一个概率分布，可以写为如下形式</strong>
+$$
+p(x<em>{1},x</em>{2},x<em>{3})=p(x</em>{1})p(x<em>{2}|x</em>{1})p(x<em>{3}|x</em>{1},x<em>{2})
+$$
+即，
+$$
+p(x</em>{1},x<em>{2},&hellip;,x</em>{n})=\prod<em>{i=1}^{n}p(x</em>{i}|x<em>{1},&hellip;,x</em>{i-1})
+$$</p>
+
+<p>那么基于这个链式法则，我们上节例子中，贝叶斯网络所表示的联合概率分布 $P(D,I,G,L,S)$ 可以分解为如下形式：
+$$
+P(D,I,G,L,S)=P(D)P(I|D)P(G|D,I)P(L|D,I,G)P(S|D,I,G,L)
+$$
+同时贝叶斯网也表达了随机变量之间的关系，透露出了相互的独立性。比如 I 和 D 实际上是独立的，根据相互独立的随机变量的条件概率的性质，我们可以知道 $P(I|D)=P(I)$，同样其他的相互独立的随机变量都可以这么化简，最后联合概率分布化简为如下形式：
+$$
+P(D,I,G,L,S)=P(D)P(I)P(G|D,I)P(L|G)P(S| I)
+$$
+这个表达式就是贝叶斯网的链式法则了。</p>
+
+<p>完整的定义是这样：<strong>令 G 为定义在 $$X_1,&hellip;,X_n$$ 上的一个贝叶斯网。若 P 可表示为乘积 $P(X_1,&hellip;X<em>n)=\prod</em>{i=1}^{n}P(X<em>i|Pa</em>{X_i}^{G})$, 则称分布 P 是关于图 G 在同一空间上的因子分解。该公式为贝叶斯网的链式法则。</strong>（公式中 Pa 表示 Parents，父母节点的意思）</p>
+
+<h2 id="贝叶斯网络合法性证明">贝叶斯网络合法性证明</h2>
+
+<p>贝叶斯网表示了一个联合概率，所以为了证明其合法性，也就是证明这个联合概率的合法性。因此合法性要满足:
+1. 所有的概率都大于等于 0
+2. 概率和为 1</p>
+
+<p>显然概率大于零是没问题的。概率和为 1 的证明需要用到上面的链式法则，我们把每一组随机变量取值对应的联合概率都加起来，结合链式法则得到如下式子：
+$$
+\sum<em>{D,I,G,L,S}P(D,I,G,L,S)=\sum</em>{D,I,G,L,S}P(D)P(I)P(G|D,I)P(L|G)P(S|I)
+$$</p>
+
+<p>把求和下标S移到相应的位置，可以得到：
+$$
+\sum<em>{D,I,G,L,S}P(D,I,G,L,S)=\sum</em>{D,I,G,L}P(D)P(I)P(G|D,I)P(L|G)\sum_{S}P(S|I)
+$$</p>
+
+<p>那么末尾的求和$\sum_{S}P(S|I)$显然等于1，以此类推，那么联合概率求和等于 1 得证。</p>
+    </div>
+</div>
+
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2017 - 2019</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://geoch.top/">Geoffrey.Chen</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+     </div>
+  </body>
+</html>
