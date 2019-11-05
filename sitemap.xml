@@ -1,9 +1,38 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
     <url>
-      <loc>https://geoch.top/2019/reverse-proxy-for-nginx/</loc>
+      <loc>https://geoch.top/categories/</loc>
+      
+      <lastmod>2019-01-07T21:46:02+00:00</lastmod>
+      
+      
+      
+      
+    </url>
+  
+    <url>
+      <loc>https://geoch.top/categories/eassy/</loc>
+      
+      <lastmod>2019-01-07T21:46:02+00:00</lastmod>
+      
+      
+      
+      
+    </url>
+  
+    <url>
+      <loc>https://geoch.top/tags/eassy/</loc>
+      
+      <lastmod>2019-01-07T21:46:02+00:00</lastmod>
+      
+      
+      
+      
+    </url>
+  
+    <url>
+      <loc>https://geoch.top/</loc>
       
       <lastmod>2019-01-07T21:46:02+00:00</lastmod>
       
@@ -23,6 +52,56 @@
     </url>
   
     <url>
+      <loc>https://geoch.top/posts/</loc>
+      
+      <lastmod>2019-01-07T21:46:02+00:00</lastmod>
+      
+      
+      
+      
+    </url>
+  
+    <url>
+      <loc>https://geoch.top/2019/reverse-proxy-for-nginx/</loc>
+      
+      <lastmod>2019-01-07T21:46:02+00:00</lastmod>
+      
+      
+      
+      
+    </url>
+  
+    <url>
+      <loc>https://geoch.top/tags/</loc>
+      
+      <lastmod>2019-01-07T21:46:02+00:00</lastmod>
+      
+      
+      
+      
+    </url>
+  
+    <url>
+      <loc>https://geoch.top/tags/pytorch/</loc>
+      
+      <lastmod>2018-12-30T21:46:02+00:00</lastmod>
+      
+      
+      
+      
+    </url>
+  
+    <url>
+      <loc>https://geoch.top/categories/pytorch/</loc>
+      
+      <lastmod>2018-12-30T21:46:02+00:00</lastmod>
+      
+      
+      
+      
+    </url>
+  
+    <url>
       <loc>https://geoch.top/2018/torchrecord/</loc>
       
       <lastmod>2018-12-30T21:46:02+00:00</lastmod>
@@ -33,9 +112,49 @@
     </url>
   
     <url>
+      <loc>https://geoch.top/categories/essay/</loc>
+      
+      <lastmod>2018-12-28T12:11:02+00:00</lastmod>
+      
+      
+      
+      
+    </url>
+  
+    <url>
+      <loc>https://geoch.top/tags/essay/</loc>
+      
+      <lastmod>2018-12-28T12:11:02+00:00</lastmod>
+      
+      
+      
+      
+    </url>
+  
+    <url>
       <loc>https://geoch.top/2018/newlook/</loc>
       
       <lastmod>2018-12-28T12:11:02+00:00</lastmod>
+      
+      
+      
+      
+    </url>
+  
+    <url>
+      <loc>https://geoch.top/tags/pgms/</loc>
+      
+      <lastmod>2018-03-03T20:06:15+00:00</lastmod>
+      
+      
+      
+      
+    </url>
+  
+    <url>
+      <loc>https://geoch.top/categories/pgms/</loc>
+      
+      <lastmod>2018-03-03T20:06:15+00:00</lastmod>
       
       
       
@@ -73,6 +192,26 @@
     </url>
   
     <url>
+      <loc>https://geoch.top/categories/deeplearning/</loc>
+      
+      <lastmod>2017-09-02T17:37:56+00:00</lastmod>
+      
+      
+      
+      
+    </url>
+  
+    <url>
+      <loc>https://geoch.top/tags/nlp/</loc>
+      
+      <lastmod>2017-09-02T17:37:56+00:00</lastmod>
+      
+      
+      
+      
+    </url>
+  
+    <url>
       <loc>https://geoch.top/2017/where-is-the-vector-in-word2vec-cbow/</loc>
       
       <lastmod>2017-09-02T17:37:56+00:00</lastmod>
@@ -93,189 +232,21 @@
     </url>
   
     <url>
-      <loc>https://geoch.top/about/</loc>
-      
-      <lastmod>2014-12-28T00:00:00+00:00</lastmod>
-      
-      
-      
-      
-    </url>
-  
-    <url>
       <loc>https://geoch.top/tags/cnns/</loc>
       
       <lastmod>2017-05-05T13:13:02+00:00</lastmod>
       
       
       
-      <priority>0</priority>
-      
       
     </url>
   
     <url>
-      <loc>https://geoch.top/categories/</loc>
+      <loc>https://geoch.top/about/</loc>
       
+      <lastmod>2014-12-28T00:00:00+00:00</lastmod>
       
       
-      <priority>0</priority>
-      
-      
-    </url>
-  
-    <url>
-      <loc>https://geoch.top/categories/deeplearning/</loc>
-      
-      <lastmod>2017-09-02T17:37:56+00:00</lastmod>
-      
-      
-      
-      <priority>0</priority>
-      
-      
-    </url>
-  
-    <url>
-      <loc>https://geoch.top/tags/eassy/</loc>
-      
-      <lastmod>2019-01-07T21:46:02+00:00</lastmod>
-      
-      
-      
-      <priority>0</priority>
-      
-      
-    </url>
-  
-    <url>
-      <loc>https://geoch.top/categories/eassy/</loc>
-      
-      <lastmod>2019-01-07T21:46:02+00:00</lastmod>
-      
-      
-      
-      <priority>0</priority>
-      
-      
-    </url>
-  
-    <url>
-      <loc>https://geoch.top/tags/essay/</loc>
-      
-      <lastmod>2018-12-28T12:11:02+00:00</lastmod>
-      
-      
-      
-      <priority>0</priority>
-      
-      
-    </url>
-  
-    <url>
-      <loc>https://geoch.top/categories/essay/</loc>
-      
-      <lastmod>2018-12-28T12:11:02+00:00</lastmod>
-      
-      
-      
-      <priority>0</priority>
-      
-      
-    </url>
-  
-    <url>
-      <loc>https://geoch.top/</loc>
-      
-      <lastmod>2019-01-07T21:46:02+00:00</lastmod>
-      
-      
-      
-      <priority>0</priority>
-      
-      
-    </url>
-  
-    <url>
-      <loc>https://geoch.top/tags/nlp/</loc>
-      
-      <lastmod>2017-09-02T17:37:56+00:00</lastmod>
-      
-      
-      
-      <priority>0</priority>
-      
-      
-    </url>
-  
-    <url>
-      <loc>https://geoch.top/tags/pgms/</loc>
-      
-      <lastmod>2018-03-03T20:06:15+00:00</lastmod>
-      
-      
-      
-      <priority>0</priority>
-      
-      
-    </url>
-  
-    <url>
-      <loc>https://geoch.top/categories/pgms/</loc>
-      
-      <lastmod>2018-03-03T20:06:15+00:00</lastmod>
-      
-      
-      
-      <priority>0</priority>
-      
-      
-    </url>
-  
-    <url>
-      <loc>https://geoch.top/posts/</loc>
-      
-      <lastmod>2019-01-07T21:46:02+00:00</lastmod>
-      
-      
-      
-      <priority>0</priority>
-      
-      
-    </url>
-  
-    <url>
-      <loc>https://geoch.top/tags/pytorch/</loc>
-      
-      <lastmod>2018-12-30T21:46:02+00:00</lastmod>
-      
-      
-      
-      <priority>0</priority>
-      
-      
-    </url>
-  
-    <url>
-      <loc>https://geoch.top/categories/pytorch/</loc>
-      
-      <lastmod>2018-12-30T21:46:02+00:00</lastmod>
-      
-      
-      
-      <priority>0</priority>
-      
-      
-    </url>
-  
-    <url>
-      <loc>https://geoch.top/tags/</loc>
-      
-      <lastmod>2017-05-05T13:13:02+00:00</lastmod>
-      
-      
-      
-      <priority>0</priority>
       
       
     </url>
