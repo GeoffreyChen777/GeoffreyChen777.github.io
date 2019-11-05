@@ -292,7 +292,7 @@ Ocean University of China, Vision Lab, Computer Technology, 2017-now, Supervisor
 &lt;li&gt;&lt;p&gt;2019 IEEE International Conference on Computer Vision (ICCV) Vision Meets Drones Challenge&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Object Detection in Images: Runner-up (Role: Leader)&lt;/li&gt;
+&lt;li&gt;Object Detection in Images: &lt;strong&gt;Runner-up&lt;/strong&gt; (Role: Leader)&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;2017 Underwater Robot Piking Contest (Organized by National Natural Science Foundation of China)&lt;/p&gt;
@@ -334,17 +334,23 @@ Ocean University of China, Vision Lab, Computer Technology, 2017-now, Supervisor
 
 &lt;h1 id=&#34;papers&#34;&gt;PAPERS&lt;/h1&gt;
 
-&lt;p&gt;[1] RRNet: A Hybrid Detector for Object Detection in Drone-captured Images, first author, accepted by &lt;em&gt;IEEE International Conference on Computer Vision Workshop (ICCVW 2019)&lt;/em&gt;.
-[2] Learning Deep Relations to Promote Saliency Detection, first author, submitted to &lt;em&gt;Thirty- Fourth AAAI Conference on Artificial Intelligence (AAAI 2020)&lt;/em&gt;.
-[3] Exploring Ubiquitous Relations for Boosting Classification and Localizations, first author, submitted to &lt;em&gt;Neurocomputing (in revision)&lt;/em&gt;.
-[4] Highlight Every Step: Knowledge Distillation via Collaborative Teaching, co-author, submitted to &lt;em&gt;IEEE Transaction on Cybernetics&lt;/em&gt;.
-[5] Few-shot Learning for Domain-specific Fine-grained Image Classification, co-author, submitted to &lt;em&gt;IEEE Transactions on Industrial Electronics&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;[1] RRNet: A Hybrid Detector for Object Detection in Drone-captured Images, first author, accepted by &lt;em&gt;IEEE International Conference on Computer Vision Workshop (ICCVW 2019)&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;[2] Learning Deep Relations to Promote Saliency Detection, first author, submitted to &lt;em&gt;Thirty- Fourth AAAI Conference on Artificial Intelligence (AAAI 2020)&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;[3] Exploring Ubiquitous Relations for Boosting Classification and Localizations, first author, submitted to &lt;em&gt;Neurocomputing (in revision)&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;[4] Highlight Every Step: Knowledge Distillation via Collaborative Teaching, co-author, submitted to &lt;em&gt;IEEE Transaction on Cybernetics&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;[5] Few-shot Learning for Domain-specific Fine-grained Image Classification, co-author, submitted to &lt;em&gt;IEEE Transactions on Industrial Electronics&lt;/em&gt;.&lt;/p&gt;
 
 &lt;h1 id=&#34;other-projects&#34;&gt;OTHER PROJECTS&lt;/h1&gt;
 
-&lt;p&gt;[1] I developed a semantic segmentation and object detection framework which includes many famous segmentation and detection models (PSPNet, FCNs, Deeplab, RetinaNet, and FasterRCNN, etc.).
-[2] Deploying and maintaining the computing clusters (based on Hadoop, Docker, and Open PAI), code repository, website and blog of my group.&lt;br /&gt;
-[3] Contributors of the Open Platform for AI (developed by Microsoft)&lt;/p&gt;</description>
+&lt;p&gt;[1] I developed a semantic segmentation and object detection framework which includes many famous segmentation and detection models (PSPNet, FCNs, Deeplab, RetinaNet, and FasterRCNN, etc.).&lt;/p&gt;
+
+&lt;p&gt;[2] Deploying and maintaining the computing clusters (based on Hadoop, Docker, and Open PAI), code repository, website and blog of my group.&lt;/p&gt;
+
+&lt;p&gt;[3] Contributors of the Open Platform for AI (developed by Microsoft)&lt;/p&gt;</description>
     </item>
     
   </channel>
