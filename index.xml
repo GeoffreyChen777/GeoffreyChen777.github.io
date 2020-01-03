@@ -283,7 +283,7 @@ Dropout 作用的机制是按照一定几率随机的将输出置为 0。可以�
 Ocean University of China, Computer Science and Technology, 2013-2017, GPA: 3.4 (out of 4)&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;Master
-Ocean University of China, Vision Lab, Computer Technology, 2017-now, Supervisor: Prof. Xin Sun,  GPA: 3.63 (out of 4) Rank No.1&lt;/p&gt;&lt;/li&gt;
+Ocean University of China, Vision Lab, Computer Technology, 2017-now, Supervisor: Prof. Xin Sun,  GPA: 3.8 (out of 4) Rank No.1&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h1 id=&#34;honors-and-awards&#34;&gt;HONORS AND AWARDS&lt;/h1&gt;
@@ -342,15 +342,7 @@ Ocean University of China, Vision Lab, Computer Technology, 2017-now, Supervisor
 
 &lt;p&gt;[4] Highlight Every Step: Knowledge Distillation via Collaborative Teaching, co-author, submitted to &lt;em&gt;IEEE Transaction on Cybernetics&lt;/em&gt;.&lt;/p&gt;
 
-&lt;p&gt;[5] Few-shot Learning for Domain-specific Fine-grained Image Classification, co-author, submitted to &lt;em&gt;IEEE Transactions on Industrial Electronics&lt;/em&gt;.&lt;/p&gt;
-
-&lt;h1 id=&#34;other-projects&#34;&gt;OTHER PROJECTS&lt;/h1&gt;
-
-&lt;p&gt;[1] I developed a semantic segmentation and object detection framework which includes many famous segmentation and detection models (PSPNet, FCNs, Deeplab, RetinaNet, and FasterRCNN, etc.).&lt;/p&gt;
-
-&lt;p&gt;[2] Deploying and maintaining the computing clusters (based on Hadoop, Docker, and Open PAI), code repository, website and blog of my group.&lt;/p&gt;
-
-&lt;p&gt;[3] Contributors of the Open Platform for AI (developed by Microsoft)&lt;/p&gt;</description>
+&lt;p&gt;[5] Few-shot Learning for Domain-specific Fine-grained Image Classification, co-author, submitted to &lt;em&gt;IEEE Transactions on Industrial Electronics&lt;/em&gt;.&lt;/p&gt;</description>
     </item>
     
   </channel>
