@@ -57,7 +57,7 @@
     "datePublished": "2020-02-26 23:00:00 \x2b0000 UTC",
     "dateModified" : "2020-02-26 23:00:00 \x2b0000 UTC",
     "url" : "https:\/\/geoch.top\/2020\/trains\/",
-    "wordCount" : "541",
+    "wordCount" : "543",
     "keywords" : [ "Essay", "Geo\x27s Page"]
 }
 </script>
@@ -161,11 +161,11 @@
 <h2 id="deploy-trains-server">Deploy Trains Server</h2>
 <p>You can deploy a Trans-server on your own server or VPS. Thus, it can protect the privacy of your data.</p>
 <p>You can launch your own Trains-server by following the official doc (<a href="https://github.com/allegroai/trains-server/blob/master/docs/install_linux_mac.md">link</a>).</p>
-<p>Notablly, you need to ensure that your server have more than 3 GB RAM. Otherwise, you will get the some errors like this:</p>
+<p>Notablly, you need to ensure that your server have more than 3 GB RAM. Otherwise, you will get some errors like this:</p>
 <pre><code>[WARNING] [urllib3.connectionpool] Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x7ff9549187f0&gt;: Failed to establish a new connection: [Errno -2] Name or service not known',)': /_template/events
 ...
 </code></pre><p>The reason is that your server don't have enough memory to launch some services.</p>
-<p>After that, you can access the webUI by <code>YOUR IP:8080</code>.</p>
+<p>After that, you can access the web UI by <code>YOUR IP:8080</code>.</p>
 <h2 id="bind-a-domain">Bind a Domain</h2>
 <p>If you hold a domain, you may want to access your Trains-server by your domain, instead of an ugly ip address.</p>
 <p>First, you need to add three DNS records/entrys at your nameserver's console. For example, add three A records:</p>
@@ -213,7 +213,7 @@ server {
 <p>If you want to set up ssl for your Trains-server, but you don't have a SSL/TLS certificates. I highly recommend <strong>Let's encrypt</strong> and <strong>Certbot</strong>.</p>
 <p>Following this <a href="https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx">link</a>, you can install certbot on your server. Then, run this command:</p>
 <pre><code>sudo certbot --nginx
-</code></pre><p>It will automatically set up the SSL for your Trains-server! Now, you can access your webUI by <code>https://app.trains.mydomain.com</code></p>
+</code></pre><p>It will automatically set up the SSL for your Trains-server! Now, you can access your web UI by <code>https://app.trains.mydomain.com</code> !</p>
 
     </div>
 
