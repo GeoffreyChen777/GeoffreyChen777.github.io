@@ -57,7 +57,7 @@
     "datePublished": "2018-03-02 20:06:15 \x2b0000 UTC",
     "dateModified" : "2018-03-02 20:06:15 \x2b0000 UTC",
     "url" : "https:\/\/geoch.top\/probabilistic-graphical-models\/probabilistic-graphical-models-2\/",
-    "wordCount" : "108",
+    "wordCount" : "106",
     "keywords" : [ "PGMs", "Geo\x27s Blog"]
 }
 </script>
@@ -154,35 +154,25 @@
           
 
           <p>This post is about beyasie network.</p>
-
 <h2 id="贝叶斯网概览">贝叶斯网概览</h2>
-
 <p>贝叶斯网络是概率图模型中很重要的两种模型之一。基于贝叶斯公式构建起来的。</p>
-
-<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="https://i.loli.net/2018/03/02/5a98fef7a365e.jpg" alt="student.jpg" class="lazyload"><figcaption class="image-caption">student.jpg</figcaption></figure></p>
-
+<p><img src="https://i.loli.net/2018/03/02/5a98fef7a365e.jpg" alt="student.jpg"></p>
 <blockquote>
 <p>该例子来自 Daphne Koller 的公开课，同时推荐仔细学习该公开课。本系列文章也是跟着课程的内容前进的，原视频没有中文字幕，可以在不明白的地方翻阅本系列文章补充。再次感谢 Daphne Koller 教授和她的课程。</p>
 </blockquote>
-
 <p>上图是我们整个学习中，最为常用的也很好理解的一个贝叶斯网络例子。</p>
-
 <p>该图表达了五个不同的随机变量和他们之间的关系。描述了这样一件事：课程的难度(Difficulty)和一个学生的智商(Intelligence)会对他这门课的课程成绩有影响，同时他的智商也会影响到他的 SAT 分数。课程的成绩同时会影响到教授给他的推荐信。整个网络的架构很合理，跟符合人们生活的认知。比如课程难度没法直接影响教授的推荐信，只能通过课程成绩间接影响。</p>
-
-<p>可以看出，贝叶斯网是由节点和有向边组成的一个图，同时要求不能有闭环。每个节点都有配的一个相关节点组成的条件概率分布。所以贝叶斯网的完整定义是：<strong>A directed acyclic graph G whose nodes represent the random variables $X<em>{1},X</em>{2}&hellip;,X<em>{n}$. For each node $X</em>{i}$ a CPD $P(X<em>{i}|Par</em>{G}(X_{i}))$.</strong> 贝叶斯网通过链式法则，表达了一个众多随机变量的联合概率分布，接下来说说什么是链式法则。</p>
-
-<h2 id="链式法则-chain-rule">链式法则(Chain Rule)</h2>
-
+<p>可以看出，贝叶斯网是由节点和有向边组成的一个图，同时要求不能有闭环。每个节点都有配的一个相关节点组成的条件概率分布。所以贝叶斯网的完整定义是：**A directed acyclic graph G whose nodes represent the random variables $X_{1},X_{2}&hellip;,X_{n}$. For each node $X_{i}$ a CPD $P(X_{i}|Par_{G}(X_{i}))$.** 贝叶斯网通过链式法则，表达了一个众多随机变量的联合概率分布，接下来说说什么是链式法则。</p>
+<h2 id="链式法则chain-rule">链式法则(Chain Rule)</h2>
 <p>概率论中的链式法则，是贝叶斯网的链式法则的构建基础。
-概率论中，链式法则是这样表述的：<strong>链式法则允许一个概率质量函数，可以分解为一些因子的乘积的形式，比如在随机变量 $X<em>{1}, X</em>{2}, X_{3}$ 上的一个概率分布，可以写为如下形式</strong>
+概率论中，链式法则是这样表述的：**链式法则允许一个概率质量函数，可以分解为一些因子的乘积的形式，比如在随机变量 $X_{1}, X_{2}, X_{3}$ 上的一个概率分布，可以写为如下形式**
 $$
-p(x<em>{1},x</em>{2},x<em>{3})=p(x</em>{1})p(x<em>{2}|x</em>{1})p(x<em>{3}|x</em>{1},x<em>{2})
+p(x_{1},x_{2},x_{3})=p(x_{1})p(x_{2}|x_{1})p(x_{3}|x_{1},x_{2})
 $$
 即，
 $$
-p(x</em>{1},x<em>{2},&hellip;,x</em>{n})=\prod<em>{i=1}^{n}p(x</em>{i}|x<em>{1},&hellip;,x</em>{i-1})
+p(x_{1},x_{2},&hellip;,x_{n})=\prod_{i=1}^{n}p(x_{i}|x_{1},&hellip;,x_{i-1})
 $$</p>
-
 <p>那么基于这个链式法则，我们上节例子中，贝叶斯网络所表示的联合概率分布 $P(D,I,G,L,S)$ 可以分解为如下形式：
 $$
 P(D,I,G,L,S)=P(D)P(I|D)P(G|D,I)P(L|D,I,G)P(S|D,I,G,L)
@@ -192,25 +182,21 @@ $$
 P(D,I,G,L,S)=P(D)P(I)P(G|D,I)P(L|G)P(S| I)
 $$
 这个表达式就是贝叶斯网的链式法则了。</p>
-
-<p>完整的定义是这样：<strong>令 G 为定义在 $$X_1,&hellip;,X_n$$ 上的一个贝叶斯网。若 P 可表示为乘积 $P(X_1,&hellip;X<em>n)=\prod</em>{i=1}^{n}P(X<em>i|Pa</em>{X_i}^{G})$, 则称分布 P 是关于图 G 在同一空间上的因子分解。该公式为贝叶斯网的链式法则。</strong>（公式中 Pa 表示 Parents，父母节点的意思）</p>
-
+<p>完整的定义是这样：**令 G 为定义在 $$X_1,&hellip;,X_n$$ 上的一个贝叶斯网。若 P 可表示为乘积 $P(X_1,&hellip;X_n)=\prod_{i=1}^{n}P(X_i|Pa_{X_i}^{G})$, 则称分布 P 是关于图 G 在同一空间上的因子分解。该公式为贝叶斯网的链式法则。**（公式中 Pa 表示 Parents，父母节点的意思）</p>
 <h2 id="贝叶斯网络合法性证明">贝叶斯网络合法性证明</h2>
-
-<p>贝叶斯网表示了一个联合概率，所以为了证明其合法性，也就是证明这个联合概率的合法性。因此合法性要满足:
-1. 所有的概率都大于等于 0
-2. 概率和为 1</p>
-
+<p>贝叶斯网表示了一个联合概率，所以为了证明其合法性，也就是证明这个联合概率的合法性。因此合法性要满足:</p>
+<ol>
+<li>所有的概率都大于等于 0</li>
+<li>概率和为 1</li>
+</ol>
 <p>显然概率大于零是没问题的。概率和为 1 的证明需要用到上面的链式法则，我们把每一组随机变量取值对应的联合概率都加起来，结合链式法则得到如下式子：
 $$
-\sum<em>{D,I,G,L,S}P(D,I,G,L,S)=\sum</em>{D,I,G,L,S}P(D)P(I)P(G|D,I)P(L|G)P(S|I)
+\sum_{D,I,G,L,S}P(D,I,G,L,S)=\sum_{D,I,G,L,S}P(D)P(I)P(G|D,I)P(L|G)P(S|I)
 $$</p>
-
 <p>把求和下标S移到相应的位置，可以得到：
 $$
-\sum<em>{D,I,G,L,S}P(D,I,G,L,S)=\sum</em>{D,I,G,L}P(D)P(I)P(G|D,I)P(L|G)\sum_{S}P(S|I)
+\sum_{D,I,G,L,S}P(D,I,G,L,S)=\sum_{D,I,G,L}P(D)P(I)P(G|D,I)P(L|G)\sum_{S}P(S|I)
 $$</p>
-
 <p>那么末尾的求和$\sum_{S}P(S|I)$显然等于1，以此类推，那么联合概率求和等于 1 得证。</p>
     </div>
 

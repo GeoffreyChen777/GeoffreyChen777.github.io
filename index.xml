@@ -15,11 +15,8 @@
       
       <guid>https://geoch.top/build-error-with-opencv/</guid>
       <description>&lt;p&gt;If you got this error when you build the gSLIC superpixel segmentation algrithm:&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;/usr/include/c++/5/bits/stl&lt;em&gt;algobase.h:549:18: error: ambiguous overload for &amp;lsquo;operator=&amp;rsquo; (operand types are &amp;lsquo;cv::Rect&lt;/em&gt;&lt;int&gt;&amp;rsquo; and &amp;lsquo;cv::Rect_&lt;int&gt;&amp;rsquo;)&lt;/em&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;em&gt;/usr/include/c++/5/bits/stl_algobase.h:549:18: error: ambiguous overload for &amp;lsquo;operator=&amp;rsquo; (operand types are &amp;lsquo;cv::Rect_&lt;!-- raw HTML omitted --&gt;&amp;rsquo; and &amp;lsquo;cv::Rect_&lt;!-- raw HTML omitted --&gt;&amp;rsquo;)&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Just add this command in &lt;code&gt;CMakeLists.txt&lt;/code&gt; and rebuild them:&lt;/p&gt;
-
 &lt;pre&gt;&lt;code&gt;set (CMAKE_CXX_STANDARD 11)
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
@@ -31,11 +28,8 @@
       
       <guid>https://geoch.top/reverse-proxy-for-nginx/</guid>
       <description>&lt;p&gt;If we run multiple web application such as nextcloud and gogs with many ports on one NGINX server, contacting these application with subpath is elegant.&lt;/p&gt;
-
 &lt;h2 id=&#34;nginx-config&#34;&gt;Nginx Config&lt;/h2&gt;
-
 &lt;p&gt;Suppose that the nextcloud port is 8080 in my server.&lt;/p&gt;
-
 &lt;pre&gt;&lt;code&gt;server {
 listen       80 default_server;
 listen       [::]:80 default_server;
@@ -51,10 +45,7 @@ location /nextcloud/ {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Remote_addr $remote_addr;
 }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;After create the new configrition, we need to change the setting of Nextcloud. This step can solve the 404 problem of all the static files(css/js etc.)&lt;/p&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;After create the new configrition, we need to change the setting of Nextcloud. This step can solve the 404 problem of all the static files(css/js etc.)&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# config.php
 
 &#39;overwritewebroot&#39; =&amp;gt; &#39;/nextcloud&#39;,
@@ -68,47 +59,31 @@ location /nextcloud/ {
       
       <guid>https://geoch.top/torchrecord/</guid>
       <description>&lt;p&gt;In order to boost the performance of data loading in PyTorch. I write TorchRecord which is similar to the TFRecord of Tensorflow.&lt;/p&gt;
-
-&lt;p&gt;You can find the TorchRecord project at &lt;a href=&#34;https://github.com/GeoffreyChen777/TorchRecord&#34; rel=&#34;nofollow noreferrer&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
+&lt;p&gt;You can find the TorchRecord project at &lt;a href=&#34;https://github.com/GeoffreyChen777/TorchRecord&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
-
 &lt;p&gt;Following the design of TFRecord and caffe data storage, I choose &lt;strong&gt;Protocol Buffers&lt;/strong&gt; which is a data interchange format developed by Google as the storage format of TorchRecord. &lt;strong&gt;Protocol Buffers&lt;/strong&gt; can encode a set of Python objects into byte string and decoding it likes shooting fish in a barrel. Then, I insert all the byte strings into the LMDB(Lighting Memory-Mapping Database). Finally, we can select items in this database and decode them to the original objects.&lt;/p&gt;
-
 &lt;h2 id=&#34;protocol-buffers&#34;&gt;Protocol Buffers&lt;/h2&gt;
-
-&lt;p&gt;I choose &lt;code&gt;TensorProtos&lt;/code&gt; in caffe2 as the default proto. You can find the detail at &lt;a href=&#34;https://github.com/pytorch/pytorch/blob/a0d22b6965b53e5dd1db8307ebb4f022f4bcbcbe/caffe2/proto/caffe2.proto#L134&#34; rel=&#34;nofollow noreferrer&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
+&lt;p&gt;I choose &lt;code&gt;TensorProtos&lt;/code&gt; in caffe2 as the default proto. You can find the detail at &lt;a href=&#34;https://github.com/pytorch/pytorch/blob/a0d22b6965b53e5dd1db8307ebb4f022f4bcbcbe/caffe2/proto/caffe2.proto#L134&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;random-training&#34;&gt;Random Training&lt;/h2&gt;
-
 &lt;p&gt;Most of the deep learninig models require random training. The dataloader need to ensure that it can provide random index of the dataset for each training epoch. The easiest way is generating the random index number and using the &lt;code&gt;get()&lt;/code&gt; api of LMDB to get items in the database. But &lt;code&gt;get()&lt;/code&gt; is very slow.&lt;/p&gt;
-
 &lt;p&gt;Finally, in TorchRecord, I shuffle the dataset in two steps：&lt;/p&gt;
-
 &lt;ol&gt;
 &lt;li&gt;Shuffle the data before inserting them into the database.&lt;/li&gt;
 &lt;li&gt;Get the items in database sequentially by &lt;code&gt;Cursor&lt;/code&gt;. &lt;code&gt;Cursor&lt;/code&gt; can construct a sequential iterator and it is faster than &lt;code&gt;get()&lt;/code&gt;. Then, build a buffer pool and put items into this pool. The buffer pool will be shuffled every time after inserting an item. Finally, popping a random item as the training example.&lt;/li&gt;
 &lt;/ol&gt;
-
 &lt;p&gt;Following the above steps, we can obtain a shuffled sequence of the dataset.&lt;/p&gt;
-
 &lt;h2 id=&#34;working-process&#34;&gt;Working Process&lt;/h2&gt;
-
 &lt;p&gt;The main process will generate an index sequence(e.g. 1, 2, 3&amp;hellip;n) and distribute them to every working process. Each working process will construct a cursor of lmdb and will seek to the location of current index number. After that, all the shuffling, decoding and transforming stuff will be done in each sub process.&lt;/p&gt;
-
 &lt;h2 id=&#34;benchmark&#34;&gt;Benchmark&lt;/h2&gt;
-
-&lt;p&gt;I test the TorchRecord at Intel&amp;reg; Xeon&amp;reg; CPU E5-2603 0 @ 1.80GHz 4core with 32 GB Mem.&lt;/p&gt;
-
+&lt;p&gt;I test the TorchRecord at Intel(R) Xeon(R) CPU E5-2603 0 @ 1.80GHz 4core with 32 GB Mem.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;num_workers = 2:&lt;br /&gt;
-Conventional: [00:42&amp;lt;00:00,  8.72it/s]&lt;br /&gt;
+&lt;li&gt;num_workers = 2:&lt;br&gt;
+Conventional: [00:42&amp;lt;00:00,  8.72it/s]&lt;br&gt;
 &lt;strong&gt;TorchRecord: [00:21&amp;lt;00:00, 16.91it/s]&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;num_workers = 4:&lt;br /&gt;
-Conventional: [00:22&amp;lt;00:00, 16.16it/s]&lt;br /&gt;
+&lt;li&gt;num_workers = 4:&lt;br&gt;
+Conventional: [00:22&amp;lt;00:00, 16.16it/s]&lt;br&gt;
 &lt;strong&gt;TorchRecord: [00:13&amp;lt;00:00, 26.73it/s]&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
-
 &lt;p&gt;Obviously, TorchRecord is about 2x faster than the conventional dataloader.&lt;/p&gt;</description>
     </item>
     
@@ -119,9 +94,7 @@ Conventional: [00:22&amp;lt;00:00, 16.16it/s]&lt;br /&gt;
       
       <guid>https://geoch.top/newlook/</guid>
       <description>&lt;p&gt;I dressed up this blog.&lt;/p&gt;
-
-&lt;!-- more --&gt;
-
+&lt;!-- raw HTML omitted --&gt;
 &lt;p&gt;I choose HUGO with LeaveIt theme to rebuild this blog. HUGO is really faster than HEXO.&lt;/p&gt;
 </description>
     </item>
@@ -142,21 +115,13 @@ Conventional: [00:22&amp;lt;00:00, 16.16it/s]&lt;br /&gt;
       
       <guid>https://geoch.top/where-is-the-vector-in-word2vec-cbow/</guid>
       <description>&lt;p&gt;Where is the vector in word2vec-CBOW?&lt;/p&gt;
-
 &lt;p&gt;本周看的一篇论文，Incremental Dual-memory LSTM in Land Cover Prediction 中有提到使用了 word2vec 中的 CBOW 模型，进行标签序列的向量化，从而将标签序列信息加入到 LSTM 中。为此去理解 word2vec 中的 CBOW 模型。&lt;/p&gt;
-
 &lt;p&gt;CBOW 模型是 word2vec 的一种，用来建立词语的向量表示。CBOW 模型的输入为一个句子，扣除了其中一个单词的剩余其他词汇。之后用这几个上下文的词汇对扣去的词汇进行预测。整体效果如图所示&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2017/09/02/59aa78ca385a0.png&#34; alt=&#34;TIM截图20170902172413.png&#34; /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2017/09/02/59aa78ca385a0.png&#34; alt=&#34;TIM截图20170902172413.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;可以发现，CBOW 模型，更像是用来根据上下文进行单词的推断。那么我们之前不是说 word2vec 是用来将单词转化为向量的么，为什么这里就变成了单词推断？&lt;/p&gt;
-
 &lt;p&gt;实质上，单词推断只是 CBOW 模型的&lt;strong&gt;伪任务&lt;/strong&gt;。我们想得到的是在推断运算过程中的那个权重矩阵，而不是最后推断出的单词。最后推断出的单词，只是帮助我们进行损失计算，从而反向传播进行调参的。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2017/09/02/59aa7af974190.png&#34; alt=&#34;TIM截图20170902173335.png&#34; /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;img src=&#34;https://i.loli.net/2017/09/02/59aa7af974190.png&#34; alt=&#34;TIM截图20170902173335.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;左侧是 one-hot 类型的输入词向量，之后紧跟的矩阵，就是我们想要的词向量矩阵。包括 skip-gram 模型的词向量矩阵也是同理。&lt;/p&gt;
-
 &lt;p&gt;有任何不对的地方，希望各位老师同学指正，谢谢！&lt;/p&gt;</description>
     </item>
     
@@ -167,95 +132,87 @@ Conventional: [00:22&amp;lt;00:00, 16.16it/s]&lt;br /&gt;
       
       <guid>https://geoch.top/a-beginner-s-guide-to-cnn/</guid>
       <description>&lt;p&gt;This is the guide for the CNNs newbie.&lt;/p&gt;
-
-&lt;p&gt;上周在学校做了一个关于 CNN 的报告，主要内容是对卷积神经网络的一个新手指导。主要有以下三个部分：&lt;br /&gt;
-- Introduction&lt;br /&gt;
-- Structure&lt;br /&gt;
-- Other Tech&lt;/p&gt;
-
+&lt;p&gt;上周在学校做了一个关于 CNN 的报告，主要内容是对卷积神经网络的一个新手指导。主要有以下三个部分：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Introduction&lt;/li&gt;
+&lt;li&gt;Structure&lt;/li&gt;
+&lt;li&gt;Other Tech&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
-
 &lt;p&gt;首先是第一部分 Introduction. 2012 年，是卷积神经网络取得显著成果的一年。Alex 和他的团队，用 AlexNet 在 ImageNet 比赛上将错误率从 26% 降低到 15%。从那时开始，许许多多的公司开始研究并且使用卷及神经网络。比如 Google、amazon、Facebook 等等，应用在图像搜索，商品推荐等诸多领域。&lt;/p&gt;
-
 &lt;p&gt;对于我本人来说，在我学习当中应用到的最多的是图像方面。&lt;/p&gt;
-
 &lt;p&gt;图像分类任务中要求我们做的是输入一张图片，经过一定的运算之后，计算机输出结果告诉我们这张图片是某种东西的概率。在人眼中，看到的是一张图，一个物体。机器眼中只不过是一些数字。人类通过图片中的线条，颜色等相互关系，判断是什么物体。这种行为是人类从小就开始培养的，看到一个东西，认识他是什么。机器同样也是通过对数字相互关系的分析，判断物体。机器在图像分类的训练过程同样是在模仿人类从小学习的过程，只不过人类用了几年学会，机器可能用几天。&lt;/p&gt;
-
 &lt;h2 id=&#34;structure&#34;&gt;Structure&lt;/h2&gt;
-
 &lt;p&gt;接下来，对基本的卷积神经网络的每一层，开始介绍。&lt;/p&gt;
-
 &lt;p&gt;关于每一层的操作，我也就不再赘述，网上有很多很多了。这篇文章主要讲一讲，为什么要有这些层，这些层都做了些什么。&lt;/p&gt;
-
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;卷积层&lt;br /&gt;
+&lt;li&gt;
+&lt;p&gt;卷积层&lt;br&gt;
 首先第一个，也就是最重要的一层，就是卷积层。卷积层可以看作是一个特征提取器，那么怎么样进行特征提取的呢？&lt;/p&gt;
-
-&lt;p&gt;看下面这张图。&lt;br /&gt;
-&lt;img src=&#34;https://ooo.0o0.ooo/2017/05/05/590c04b42d2c3.png&#34; height=&#34;200&#34; width=&#34;500&#34;&gt;&lt;/p&gt;
-
+&lt;p&gt;看下面这张图。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
 &lt;p&gt;这是一个弧线一个拐角。表现在像素矩阵上就是其他地方为 0，线上的位置不为 0。那么我们假设想在一张图上提取出类似这种弧线的特征。怎么做呢？&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://ooo.0o0.ooo/2017/05/05/590c0443a29e2.png&#34; height=&#34;300&#34; width=&#34;500&#34;&gt;&lt;/p&gt;
-
+&lt;!-- raw HTML omitted --&gt;
 &lt;p&gt;看上面这个图一个老鼠，左上角位置的弧线和我们想要提取的特征很相似，左边的矩阵是这个位置的矩阵表示，右边是我们想提取的特征的矩阵表示也就是我们所说的卷积和。对应位置相乘并相加，就是我们说的卷积操作。结果是 6600。这是一个很大的数，想像一下，如果这部分不是这么一个弧线而是一个别的样子的，那么对应位置相乘相加之后，就只有很小的一个数了，通过这个结果的大小，我们可以得到这部分是不是有这个特定的特征存在。这就是特征提取。实际上这和我们人判断物体是什么是很相似的，我们也是通过寻找物体的线条颜色等特征，来判断物体是什么的。这就是为什么我们要用卷积层，我们用它来提取特征。&lt;/p&gt;
-
-&lt;p&gt;下面介绍两个卷积层中最重要的参数 Stride and Padding&lt;br /&gt;
-Stride 代表的是步长，就是卷积核在图片上移动的距离。可以控制输出的特征图的大小。&lt;br /&gt;
-在卷积的时候我们看到整个图片可以说是变得越来越小的，但是我们有时候不想让他缩小的太快，所以就要用 padding 这个参数。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;激活层&lt;br /&gt;
+&lt;p&gt;下面介绍两个卷积层中最重要的参数 Stride and Padding&lt;br&gt;
+Stride 代表的是步长，就是卷积核在图片上移动的距离。可以控制输出的特征图的大小。&lt;br&gt;
+在卷积的时候我们看到整个图片可以说是变得越来越小的，但是我们有时候不想让他缩小的太快，所以就要用 padding 这个参数。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;激活层&lt;br&gt;
 接下来介绍激活层。激活层实际上是一个函数。那么为什么要有激活层的存在呢？我们可以假设，没有激活层，或者说激活层函数是 y = x。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://ooo.0o0.ooo/2017/05/05/590c05b5e363c.png&#34; height=&#34;250&#34; width=&#34;500&#34;&gt;&lt;br /&gt;
-&lt;img src=&#34;https://ooo.0o0.ooo/2017/05/05/590c05fa04137.png&#34; height=&#34;250&#34; width=&#34;500&#34;&gt;&lt;/p&gt;
-
+&lt;!-- raw HTML omitted --&gt;
 &lt;p&gt;在如图的二分类问题中，单层感知机无论怎么样都无法正确划分。同样带隐层的也无法划分，无论多少层，化简后都是一个线性函数，只不过斜率什么的变化了。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://ooo.0o0.ooo/2017/05/05/590c06599c8f9.png&#34; height=&#34;250&#34; width=&#34;500&#34;&gt;&lt;/p&gt;
-
+&lt;!-- raw HTML omitted --&gt;
 &lt;p&gt;但是如果加上激活函数，比如 sigmoid，就不再是线性的了，说不定就可以有这么样一条曲线，解决这个问题。&lt;/p&gt;
-
-&lt;p&gt;常用的函数有这些诸如 Sigmoid、ReLU等。ReLU 是最近比较火的一个激活函数，&lt;em&gt;Alex&lt;/em&gt; 在 &lt;em&gt;imagenet classification with deep convolutional&lt;/em&gt; 论文中也使用了这个激活函数，并说提高了训练速率，因为他不像 sigmoid 那样需要指数运算等耗费计算资源的运算，而且也没有 sigmoid 的梯度消失问题。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Pooling 层&lt;br /&gt;
+&lt;p&gt;常用的函数有这些诸如 Sigmoid、ReLU等。ReLU 是最近比较火的一个激活函数，&lt;em&gt;Alex&lt;/em&gt; 在 &lt;em&gt;imagenet classification with deep convolutional&lt;/em&gt; 论文中也使用了这个激活函数，并说提高了训练速率，因为他不像 sigmoid 那样需要指数运算等耗费计算资源的运算，而且也没有 sigmoid 的梯度消失问题。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Pooling 层&lt;br&gt;
 接下来就是同样重要的 Pooling 层了。Pooling 有很多种，比如 max or avg。那么为什么要有 pooling 层呢？Pooling 层有 3 个主要的作用。&lt;/p&gt;
-
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;invariance&lt;br /&gt;
-首先第一个是 invariance ，即不变性，我们更多时候关注的是一个图片中是否有某种特征，而不是特征具体的位置。就像下面这个例子。虽然这个直线向右平移了一个元素，但是 pooling 后还是不变的，我们只关注直线这个特征，不关注他具体的位置。&lt;br /&gt;
-&lt;img src=&#34;https://ooo.0o0.ooo/2017/05/05/590c06d56c975.png&#34; height=&#34;450&#34; width=&#34;500&#34;&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;reduce parameters&lt;br /&gt;
-第二个作用是可以减少参数，参数数量会大幅度减少。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;overfitting&lt;br /&gt;
-另外一个作用是可以减缓过拟合。&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Dropout 层&lt;br /&gt;
-Dropout 作用的机制是按照一定几率随机的将输出置为 0。可以暂时认为这些节点不是网络结构的一部分，但是它的权重得保留下来。Dropout 可以很好的缓解过拟合问题。比如在 AlexNet 论文中，随机忽略 0.5 的神经元。Dropout 可以看做是一种模型平均，就是把来自不同模型的估计或者预测通过一定的权重平均起来。Dropout中哪里体现了“不同模型”；这个奥秘就是我们随机选择忽略隐层节点，在每个批次的训练过程中，由于每次随机忽略的隐层节点都不同，这样就使每次训练的网络都是不一样的，每次训练都可以单做一个“新”的模型；此外，隐含节点都是以一定概率随机出现，因此不能保证每2个隐含节点每次都同时出现，这样权值的更新不再依赖于有固定关系隐含节点的共同作用，阻止了某些特征仅仅在其它特定特征下才有效果的情况。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;FC 层&lt;br /&gt;
-最后就是全连接层了，在整个卷积神经网络中起到“分类器”的作用。可以通过一个与特征图大小相同的卷积核卷积操作实现。由于 FC 参数众多，通常占据整个网络 80% 参数，近期人们找出许多方法来替代全连阶层，比如 全局均值池化等。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;invariance&lt;br&gt;
+首先第一个是 invariance ，即不变性，我们更多时候关注的是一个图片中是否有某种特征，而不是特征具体的位置。就像下面这个例子。虽然这个直线向右平移了一个元素，但是 pooling 后还是不变的，我们只关注直线这个特征，不关注他具体的位置。&lt;br&gt;
+&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;reduce parameters &lt;br&gt;
+第二个作用是可以减少参数，参数数量会大幅度减少。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;overfitting&lt;br&gt;
+另外一个作用是可以减缓过拟合。&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
-
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Dropout 层&lt;br&gt;
+Dropout 作用的机制是按照一定几率随机的将输出置为 0。可以暂时认为这些节点不是网络结构的一部分，但是它的权重得保留下来。Dropout 可以很好的缓解过拟合问题。比如在 AlexNet 论文中，随机忽略 0.5 的神经元。Dropout 可以看做是一种模型平均，就是把来自不同模型的估计或者预测通过一定的权重平均起来。Dropout中哪里体现了“不同模型”；这个奥秘就是我们随机选择忽略隐层节点，在每个批次的训练过程中，由于每次随机忽略的隐层节点都不同，这样就使每次训练的网络都是不一样的，每次训练都可以单做一个“新”的模型；此外，隐含节点都是以一定概率随机出现，因此不能保证每2个隐含节点每次都同时出现，这样权值的更新不再依赖于有固定关系隐含节点的共同作用，阻止了某些特征仅仅在其它特定特征下才有效果的情况。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;FC 层&lt;br&gt;
+最后就是全连接层了，在整个卷积神经网络中起到“分类器”的作用。可以通过一个与特征图大小相同的卷积核卷积操作实现。由于 FC 参数众多，通常占据整个网络 80% 参数，近期人们找出许多方法来替代全连阶层，比如 全局均值池化等。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2 id=&#34;other-tech&#34;&gt;Other Tech&lt;/h2&gt;
-
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Deconv&lt;br /&gt;
-最后我介绍一些不同于传统 CNN 网络的有效提高性能的技术。比如反卷积操作。反卷积就是将卷积核转置后操作。通过反池化，反激活，反卷积之后，可以用于可视化卷积网络。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Transfer Learning&lt;br /&gt;
-当我们的数据量不像 google 等公司那样大的时候，可能无法取得好的训练效果。但转移学习的想法有助于减少数据需求。转移学习是采取预先训练的模型,以及使用自己的数据集“微调”模型的过程。这个想法是这个预先训练的模型将作为一个特征提取器。我们自己删除网络的最后一层，并将其替换为您自己的分类器。然后冻结所有其他层的权重并正常训练网络（冻结层意味着在梯度下降/优化期间不改变权重）。比如，ImageNet是一个数据集，其中包含1400万个图像，超过1000个类。当我们考虑网络的较低层时，我们知道它们会检测边缘和曲线等特征。除非我们有一个非常独特的问题空间和数据集，否则我们的网络也需要检测曲线和边缘。而不是通过随机初始化权重训练整个网络，我们可以使用预先训练的模型的权重（并冻结它们），并将重点放在更重要的层次上（更高的层次）进行训练。&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Data Augmentation Techniques&lt;br /&gt;
-我们很清楚的知道数据的重要性。当我们数据集不够好，比如数量太少等问题的时候，训练效果可能会不好。这里有很多数据处理的方法可以增加数据量。对我们人类来说图像平移一像素，可能很难察觉出，但是对于计算机来说，平移一像素可能会影响很大。通过平移，镜像，旋转等方法，可以成倍的增加数据集大小。比如 Alex 在论文中采用碎片采样原始数据集四个角和中间位置来增大数据集。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Deconv&lt;br&gt;
+最后我介绍一些不同于传统 CNN 网络的有效提高性能的技术。比如反卷积操作。反卷积就是将卷积核转置后操作。通过反池化，反激活，反卷积之后，可以用于可视化卷积网络。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Transfer Learning&lt;br&gt;
+当我们的数据量不像 google 等公司那样大的时候，可能无法取得好的训练效果。但转移学习的想法有助于减少数据需求。转移学习是采取预先训练的模型,以及使用自己的数据集“微调”模型的过程。这个想法是这个预先训练的模型将作为一个特征提取器。我们自己删除网络的最后一层，并将其替换为您自己的分类器。然后冻结所有其他层的权重并正常训练网络（冻结层意味着在梯度下降/优化期间不改变权重）。比如，ImageNet是一个数据集，其中包含1400万个图像，超过1000个类。当我们考虑网络的较低层时，我们知道它们会检测边缘和曲线等特征。除非我们有一个非常独特的问题空间和数据集，否则我们的网络也需要检测曲线和边缘。而不是通过随机初始化权重训练整个网络，我们可以使用预先训练的模型的权重（并冻结它们），并将重点放在更重要的层次上（更高的层次）进行训练。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Data Augmentation Techniques&lt;br&gt;
+我们很清楚的知道数据的重要性。当我们数据集不够好，比如数量太少等问题的时候，训练效果可能会不好。这里有很多数据处理的方法可以增加数据量。对我们人类来说图像平移一像素，可能很难察觉出，但是对于计算机来说，平移一像素可能会影响很大。通过平移，镜像，旋转等方法，可以成倍的增加数据集大小。比如 Alex 在论文中采用碎片采样原始数据集四个角和中间位置来增大数据集。&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
-
 &lt;blockquote&gt;
-&lt;p&gt;Some Image are from &lt;a href=&#34;https://adeshpande3.github.io/&#34; rel=&#34;nofollow noreferrer&#34; target=&#34;_blank&#34;&gt;https://adeshpande3.github.io/&lt;/a&gt;&lt;br /&gt;
-    If there is any infringement please contact me as soon as possible to do delete processing.&lt;/p&gt;
+&lt;p&gt;Some Image are from &lt;a href=&#34;https://adeshpande3.github.io/&#34;&gt;https://adeshpande3.github.io/&lt;/a&gt;&lt;br&gt;
+If there is any infringement please contact me as soon as possible to do delete processing.&lt;/p&gt;
 &lt;/blockquote&gt;</description>
     </item>
     
@@ -266,83 +223,62 @@ Dropout 作用的机制是按照一定几率随机的将输出置为 0。可以�
       
       <guid>https://geoch.top/about/</guid>
       <description>&lt;h1 id=&#34;profile&#34;&gt;PROFILE&lt;/h1&gt;
-
-&lt;p&gt;&lt;strong&gt;Name&lt;/strong&gt;: Changrui CHEN (陈常瑞)&lt;br /&gt;
+&lt;p&gt;&lt;strong&gt;Name&lt;/strong&gt;: Changrui CHEN (陈常瑞)&lt;br&gt;
 &lt;strong&gt;Institute Address&lt;/strong&gt;: College of Information Science and Engineering, Ocean University of China, No. 238 Songling Road, Qingdao, 266100 P.R. China&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;E-Mail&lt;/strong&gt;: &lt;img src=&#34;https://geoch.top/images/email.png&#34; width=150 style=&#34;display:inline; margin-top:100&#34; /&gt;&lt;/p&gt;
-
+&lt;p&gt;&lt;strong&gt;E-Mail&lt;/strong&gt;: &lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
 &lt;h1 id=&#34;research-interests-and-statements&#34;&gt;RESEARCH INTERESTS AND STATEMENTS&lt;/h1&gt;
-
 &lt;p&gt;My research interests focus on object detection and segmentation in many application environments (e.g., drone-captured images, underwater images). I have developed two underwater robots to deploy and test our algorithms for the real-world application. Besides, I also interest in mining the relation in natural images to boost the deep learning segmentation algorithm under weakly supervised or unsupervised condition.&lt;/p&gt;
-
 &lt;h1 id=&#34;education&#34;&gt;EDUCATION&lt;/h1&gt;
-
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Bachelor
-Ocean University of China, Computer Science and Technology, 2013-2017, GPA: 3.4 (out of 4)&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Master
-Ocean University of China, Vision Lab, Computer Technology, 2017-now, Supervisor: Prof. Xin Sun,  GPA: 3.8 (out of 4) Rank No.1&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Bachelor
+Ocean University of China, Computer Science and Technology, 2013-2017&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Master
+Ocean University of China, Vision Lab, Computer Technology, 2017-now&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
-
 &lt;h1 id=&#34;honors-and-awards&#34;&gt;HONORS AND AWARDS&lt;/h1&gt;
-
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;2019 IEEE International Conference on Computer Vision (ICCV) Vision Meets Drones Challenge&lt;/p&gt;
-
+&lt;li&gt;
+&lt;p&gt;2019 IEEE International Conference on Computer Vision (ICCV) Vision Meets Drones Challenge&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Object Detection in Images: &lt;strong&gt;Runner-up&lt;/strong&gt; (Role: Leader)&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;2017 Underwater Robot Piking Contest (Organized by National Natural Science Foundation of China)&lt;/p&gt;
-
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;2017 Underwater Robot Piking Contest (Organized by National Natural Science Foundation of China)&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Object Detection(online): &lt;strong&gt;First Award&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;2018 Underwater Robot Piking Contest&lt;/p&gt;
-
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;2018 Underwater Robot Piking Contest&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Object Detection(offline): &lt;strong&gt;Second Award&lt;/strong&gt;&lt;/li&gt;
 &lt;li&gt;Object Picking: &lt;strong&gt;Third Award&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;2017 China Computer Federation Ship Detection in the Complex Ocean Environment&lt;/p&gt;
-
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;2017 China Computer Federation Ship Detection in the Complex Ocean Environment&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;First place in the preliminary round，Top 5% in the final round&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Ocean University of China &lt;strong&gt;Outstanding Graduate Student&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;China National Scholarship (2019)&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Ocean University of China Scholarship, &lt;strong&gt;Grade One (2017)&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Ocean University of China Scholarship, Grade Two (2016)&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Ocean University of China Scholarship, Grade Two (2015)&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Ocean University of China Scholarship, Grade Two (2014)&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;h1 id=&#34;research-projects&#34;&gt;RESEARCH PROJECTS&lt;/h1&gt;
-
-&lt;p&gt;[1] Graduate Student Foundation of Ocean University of China: Object Detection in Complex Underwater Environment, March 2018 - March 2019 (Leader)&lt;br /&gt;
-[2] Student Research Development Project of Ocean University of China: A Medical Assistance Application based on Miband, 2016 (Leader)&lt;/p&gt;
-
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Ocean University of China &lt;strong&gt;Outstanding Graduate Student&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h1 id=&#34;papers&#34;&gt;PAPERS&lt;/h1&gt;
-
 &lt;p&gt;[1] RRNet: A Hybrid Detector for Object Detection in Drone-captured Images, first author, accepted by &lt;em&gt;IEEE International Conference on Computer Vision Workshop (ICCVW 2019)&lt;/em&gt;.&lt;/p&gt;
-
 &lt;p&gt;[2] Learning Deep Relations to Promote Saliency Detection, first author, accepted by &lt;em&gt;Thirty- Fourth AAAI Conference on Artificial Intelligence (AAAI 2020) Oral&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;[3] Exploring Ubiquitous Relations for Boosting Classification and Localizations, first author, submitted to &lt;em&gt;Neurocomputing (in revision)&lt;/em&gt;.&lt;/p&gt;
-
+&lt;p&gt;[3] Few-shot Learning for Domain-specific Fine-grained Image Classification, co-author, accepted by &lt;em&gt;IEEE Transactions on Industrial Electronics&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;[4] Highlight Every Step: Knowledge Distillation via Collaborative Teaching, co-author, submitted to &lt;em&gt;IEEE Transaction on Cybernetics&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;[5] Few-shot Learning for Domain-specific Fine-grained Image Classification, co-author, submitted to &lt;em&gt;IEEE Transactions on Industrial Electronics&lt;/em&gt;.&lt;/p&gt;</description>
+&lt;p&gt;[5] Exploring Ubiquitous Relations for Boosting Classification and Localizations, first author, &lt;em&gt;under revision&lt;/em&gt;.&lt;/p&gt;
+&lt;h1 id=&#34;research-projects&#34;&gt;RESEARCH PROJECTS&lt;/h1&gt;
+&lt;p&gt;[1]	Graduate Student Foundation of Ocean University of China: Object Detection in Complex Underwater Environment, March 2018 - March 2019 (Leader)&lt;br&gt;
+[2] Student Research Development Project of Ocean University of China: A Medical Assistance Application based on Miband, 2016 (Leader)&lt;/p&gt;</description>
     </item>
     
   </channel>

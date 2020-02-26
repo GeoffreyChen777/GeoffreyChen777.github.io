@@ -123,47 +123,31 @@
     <h2 class="post-title" style="text-align:right;padding-bottom:2em">TorchRecord</h2>
     <div class="post-content">
         <p>In order to boost the performance of data loading in PyTorch. I write TorchRecord which is similar to the TFRecord of Tensorflow.</p>
-
-<p>You can find the TorchRecord project at <a href="https://github.com/GeoffreyChen777/TorchRecord" rel="nofollow noreferrer" target="_blank">here</a>.</p>
-
+<p>You can find the TorchRecord project at <a href="https://github.com/GeoffreyChen777/TorchRecord">here</a>.</p>
 <h2 id="introduction">Introduction</h2>
-
 <p>Following the design of TFRecord and caffe data storage, I choose <strong>Protocol Buffers</strong> which is a data interchange format developed by Google as the storage format of TorchRecord. <strong>Protocol Buffers</strong> can encode a set of Python objects into byte string and decoding it likes shooting fish in a barrel. Then, I insert all the byte strings into the LMDB(Lighting Memory-Mapping Database). Finally, we can select items in this database and decode them to the original objects.</p>
-
 <h2 id="protocol-buffers">Protocol Buffers</h2>
-
-<p>I choose <code>TensorProtos</code> in caffe2 as the default proto. You can find the detail at <a href="https://github.com/pytorch/pytorch/blob/a0d22b6965b53e5dd1db8307ebb4f022f4bcbcbe/caffe2/proto/caffe2.proto#L134" rel="nofollow noreferrer" target="_blank">here</a>.</p>
-
+<p>I choose <code>TensorProtos</code> in caffe2 as the default proto. You can find the detail at <a href="https://github.com/pytorch/pytorch/blob/a0d22b6965b53e5dd1db8307ebb4f022f4bcbcbe/caffe2/proto/caffe2.proto#L134">here</a>.</p>
 <h2 id="random-training">Random Training</h2>
-
 <p>Most of the deep learninig models require random training. The dataloader need to ensure that it can provide random index of the dataset for each training epoch. The easiest way is generating the random index number and using the <code>get()</code> api of LMDB to get items in the database. But <code>get()</code> is very slow.</p>
-
 <p>Finally, in TorchRecord, I shuffle the dataset in two steps：</p>
-
 <ol>
 <li>Shuffle the data before inserting them into the database.</li>
 <li>Get the items in database sequentially by <code>Cursor</code>. <code>Cursor</code> can construct a sequential iterator and it is faster than <code>get()</code>. Then, build a buffer pool and put items into this pool. The buffer pool will be shuffled every time after inserting an item. Finally, popping a random item as the training example.</li>
 </ol>
-
 <p>Following the above steps, we can obtain a shuffled sequence of the dataset.</p>
-
 <h2 id="working-process">Working Process</h2>
-
 <p>The main process will generate an index sequence(e.g. 1, 2, 3&hellip;n) and distribute them to every working process. Each working process will construct a cursor of lmdb and will seek to the location of current index number. After that, all the shuffling, decoding and transforming stuff will be done in each sub process.</p>
-
 <h2 id="benchmark">Benchmark</h2>
-
-<p>I test the TorchRecord at Intel&reg; Xeon&reg; CPU E5-2603 0 @ 1.80GHz 4core with 32 GB Mem.</p>
-
+<p>I test the TorchRecord at Intel(R) Xeon(R) CPU E5-2603 0 @ 1.80GHz 4core with 32 GB Mem.</p>
 <ul>
-<li>num_workers = 2:<br />
-Conventional: [00:42&lt;00:00,  8.72it/s]<br />
+<li>num_workers = 2:<br>
+Conventional: [00:42&lt;00:00,  8.72it/s]<br>
 <strong>TorchRecord: [00:21&lt;00:00, 16.91it/s]</strong></li>
-<li>num_workers = 4:<br />
-Conventional: [00:22&lt;00:00, 16.16it/s]<br />
+<li>num_workers = 4:<br>
+Conventional: [00:22&lt;00:00, 16.16it/s]<br>
 <strong>TorchRecord: [00:13&lt;00:00, 26.73it/s]</strong></li>
 </ul>
-
 <p>Obviously, TorchRecord is about 2x faster than the conventional dataloader.</p>
     </div>
 </div>

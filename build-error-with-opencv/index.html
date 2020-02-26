@@ -46,7 +46,7 @@
     "articleSection" : "",
     "name" : "gSLIC Build Error.",
     "headline" : "gSLIC Build Error.",
-    "description" : "\x3cp\x3eIf you got this error when you build the gSLIC superpixel segmentation algrithm:\x3c\/p\x3e\n\n\x3cp\x3e\x3cem\x3e\/usr\/include\/c\x2b\x2b\/5\/bits\/stl\x3cem\x3ealgobase.h:549:18: error: ambiguous overload for \x26lsquo;operator=\x26rsquo; (operand types are \x26lsquo;cv::Rect\x3c\/em\x3e\x3cint\x3e\x26rsquo; and \x26lsquo;cv::Rect_\x3cint\x3e\x26rsquo;)\x3c\/em\x3e\x3c\/p\x3e",
+    "description" : "\x3cp\x3eIf you got this error when you build the gSLIC superpixel segmentation algrithm:\x3c\/p\x3e\n\x3cp\x3e\x3cem\x3e\/usr\/include\/c\x2b\x2b\/5\/bits\/stl_algobase.h:549:18: error: ambiguous overload for \x26lsquo;operator=\x26rsquo; (operand types are \x26lsquo;cv::Rect_\x3c!-- raw HTML omitted --\x3e\x26rsquo; and \x26lsquo;cv::Rect_\x3c!-- raw HTML omitted --\x3e\x26rsquo;)\x3c\/em\x3e\x3c\/p\x3e",
     "inLanguage" : "en-us",
     "author" : "Geoffrey Chen",
     "creator" : "Geoffrey Chen",
@@ -123,11 +123,8 @@
     <h2 class="post-title" style="text-align:right;padding-bottom:2em">gSLIC Build Error.</h2>
     <div class="post-content">
         <p>If you got this error when you build the gSLIC superpixel segmentation algrithm:</p>
-
-<p><em>/usr/include/c++/5/bits/stl<em>algobase.h:549:18: error: ambiguous overload for &lsquo;operator=&rsquo; (operand types are &lsquo;cv::Rect</em><int>&rsquo; and &lsquo;cv::Rect_<int>&rsquo;)</em></p>
-
+<p><em>/usr/include/c++/5/bits/stl_algobase.h:549:18: error: ambiguous overload for &lsquo;operator=&rsquo; (operand types are &lsquo;cv::Rect_<!-- raw HTML omitted -->&rsquo; and &lsquo;cv::Rect_<!-- raw HTML omitted -->&rsquo;)</em></p>
 <p>Just add this command in <code>CMakeLists.txt</code> and rebuild them:</p>
-
 <pre><code>set (CMAKE_CXX_STANDARD 11)
 </code></pre>
     </div>

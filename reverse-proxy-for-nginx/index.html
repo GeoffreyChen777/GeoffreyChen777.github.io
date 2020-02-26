@@ -123,11 +123,8 @@
     <h2 class="post-title" style="text-align:right;padding-bottom:2em">Reverse Proxy for Nextcloud, Gogs etc.</h2>
     <div class="post-content">
         <p>If we run multiple web application such as nextcloud and gogs with many ports on one NGINX server, contacting these application with subpath is elegant.</p>
-
 <h2 id="nginx-config">Nginx Config</h2>
-
 <p>Suppose that the nextcloud port is 8080 in my server.</p>
-
 <pre><code>server {
 listen       80 default_server;
 listen       [::]:80 default_server;
@@ -143,10 +140,7 @@ location /nextcloud/ {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Remote_addr $remote_addr;
 }
-</code></pre>
-
-<p>After create the new configrition, we need to change the setting of Nextcloud. This step can solve the 404 problem of all the static files(css/js etc.)</p>
-
+</code></pre><p>After create the new configrition, we need to change the setting of Nextcloud. This step can solve the 404 problem of all the static files(css/js etc.)</p>
 <pre><code># config.php
 
 'overwritewebroot' =&gt; '/nextcloud',

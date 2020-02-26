@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Eassy on Geo&#39;s Blog</title>
@@ -18,8 +18,7 @@
       
       <guid>https://geoch.top/build-error-with-opencv/</guid>
       <description>&lt;p&gt;If you got this error when you build the gSLIC superpixel segmentation algrithm:&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;/usr/include/c++/5/bits/stl&lt;em&gt;algobase.h:549:18: error: ambiguous overload for &amp;lsquo;operator=&amp;rsquo; (operand types are &amp;lsquo;cv::Rect&lt;/em&gt;&lt;int&gt;&amp;rsquo; and &amp;lsquo;cv::Rect_&lt;int&gt;&amp;rsquo;)&lt;/em&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;em&gt;/usr/include/c++/5/bits/stl_algobase.h:549:18: error: ambiguous overload for &amp;lsquo;operator=&amp;rsquo; (operand types are &amp;lsquo;cv::Rect_&lt;!-- raw HTML omitted --&gt;&amp;rsquo; and &amp;lsquo;cv::Rect_&lt;!-- raw HTML omitted --&gt;&amp;rsquo;)&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     
     <item>

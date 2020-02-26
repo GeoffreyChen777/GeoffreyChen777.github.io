@@ -154,23 +154,14 @@
           
 
           <p>In this article, we focus on three probabilities.</p>
-
 <p>联合概率、条件概率和边缘概率，这三个不同的概率，是概率图模型中经常会讨论到的三个。</p>
-
 <p>举个清晰明了的例子来分别说明。</p>
-
-<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="https://i.loli.net/2018/02/28/5a96bbd9246bf.png" alt="MultivariateNormal.png" class="lazyload"><figcaption class="image-caption">MultivariateNormal.png</figcaption></figure></p>
-
+<p><img src="https://i.loli.net/2018/02/28/5a96bbd9246bf.png" alt="MultivariateNormal.png"></p>
 <p>上图是两个随机变量的多元正态分布示意图。可以看到一共有两个随机变量，分别是 X 和 Y。</p>
-
 <p>诸如正态分布这种连续的概率分布，理应用概率密度函数来描述。但是在此为了简化描述，我用如下的简化版的概率分布表来描述一个类似上图的正态分布。</p>
-
 <p>假设随机变量 X 和 Y 的取值只有 [-2, 0, 2] 这三个值，所以概率分布表大概如下表所示：</p>
-
-<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="https://i.loli.net/2018/03/01/5a97e04a665ad.png" alt="Screen Shot 2018-03-01 at 7.08.35 PM.png" class="lazyload"><figcaption class="image-caption">Screen Shot 2018-03-01 at 7.08.35 PM.png</figcaption></figure></p>
-
+<p><img src="https://i.loli.net/2018/03/01/5a97e04a665ad.png" alt="Screen Shot 2018-03-01 at 7.08.35 PM.png"></p>
 <p><strong>联合概率</strong>：$$P(X, Y)$$，就是该表中间部分白色底色的。其表示，多个随机变量同时满足其各自约束条件的概率。比如这个例子当中，X 和 Y 两个随机变量，分别都取 -2 时候的概率，或者说，在上面的分布图中，取样点落在某个特定点或者格子区域内的概率。这就是联合概率。</p>
-
 <p><strong>条件概率</strong>：在多随机变量的情况下，一部分变量决定了，作为先决条件的情况下，另外剩下的变量的概率分布，这就是条件概率分布，比如，当 $$X=-2$$ 时，Y 的概率分布，就是条件概率分布。在上表中，这个概率分布应该是：
 $$
 P(Y=-2|X=-2)=\frac{1}{4}，
@@ -178,7 +169,6 @@ P(Y=-2|X=-2)=\frac{2}{4}，
 P(Y=-2|X=-2)=\frac{1}{4}
 $$
 特别的，如果随机变量 X 和 Y 是相互独立的，那么，条件概率等于边缘概率。即$$P(X|Y)=P(X)$$，因为 X 独立于 Y，所以 Y 无论怎么样，都不会影响到 X 的分布。</p>
-
 <p><strong>边缘概率</strong>：之所以叫边缘概率，是因为，边缘概率通常会卸载概率表的边缘。。。因为其通常是某些概率的加和。比如$$P(X)$$实际上是每行概率的加和。即 Y 所有情况都包括的情况下 X 取不同值的概率。</p>
     </div>
 
