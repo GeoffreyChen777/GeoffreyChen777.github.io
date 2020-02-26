@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="Geoffrey Chen">
+  
+  <meta name="keywords" content="deeplearning computervision">
+  
+  <link rel="prev" href="https://geoch.top/2019/build-error-with-opencv/" />
+  
+  <link rel="canonical" href="https://geoch.top/2020/trains/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           Deploy Your Own Deeplearning Experiments Manager | Geo&#39;s Page
+       
+  </title>
+  <meta name="title" content="Deploy Your Own Deeplearning Experiments Manager | Geo&#39;s Page">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/geoch.top\/"
+    },
+    "articleSection" : "posts",
+    "name" : "Deploy Your Own Deeplearning Experiments Manager",
+    "headline" : "Deploy Your Own Deeplearning Experiments Manager",
+    "description" : "If you are a deeplearning researcher, you really need to structure your experiments very well. Generally, you need to do your experiments repeately to find the best hyper-params, the best network structure, etc. Tensorboard is a solution to record all the scalars, images. But it can only save your record files in your local disks. It is ok for a individual research or a small team. But if you are working in a large team, you probabaly need to use the computing cluster (OpenPAI, Hadoop, etc.",
+    "inLanguage" : "en-us",
+    "author" : "Geoffrey Chen",
+    "creator" : "Geoffrey Chen",
+    "publisher": "Geoffrey Chen",
+    "accountablePerson" : "Geoffrey Chen",
+    "copyrightHolder" : "Geoffrey Chen",
+    "copyrightYear" : "2020",
+    "datePublished": "2020-02-26 23:00:00 \x2b0000 UTC",
+    "dateModified" : "2020-02-26 23:00:00 \x2b0000 UTC",
+    "url" : "https:\/\/geoch.top\/2020\/trains\/",
+    "wordCount" : "542",
+    "keywords" : [ "Essay", "Geo\x27s Page"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-tag"></i></a>&nbsp;<a href="https://geoch.top/">Geo&#39;s Page</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="https://github.com/GeoffreyChen777" title="">Github</a>
+                
+                <a class="menu-item" href="/about/" title="About Me">About Me</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://geoch.top/">Geo&#39;s Page</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a class="menu-item" href="/tags/" title="">Tags</a>
+                
+                <a class="menu-item" href="https://github.com/GeoffreyChen777" title="">Github</a>
+                
+                <a class="menu-item" href="/about/" title="About Me">About Me</a>
+                
+        </div>
+    </div>
+</nav>
+
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Deploy Your Own Deeplearning Experiments Manager</h1>
+        <div class="post-meta">
+            Written by <a itemprop="name" href="https://geoch.top/"
+                rel="author">Geoffrey Chen</a>
+            <span class="post-time">
+                on <time datetime=2020-02-26
+                    itemprop="datePublished">February 26, 2020</time>
+            </span>
+            in
+            <i class="iconfont icon-folder"></i>
+            <span class="post-category">
+                <a href="https://geoch.top/categories/essay/"> Essay </a>
+                
+            </span>
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+
+        
+        
+
+        
+        
+        
+
+        
+        
+        
+
+        <p>If you are a deeplearning researcher, you really need to structure your experiments very well. Generally, you need to do your experiments repeately to find the best hyper-params, the best network structure, etc. Tensorboard is a solution to record all the scalars, images. But it can only save your record files in your local disks. It is ok for a individual research or a small team. But if you are working in a large team, you probabaly need to use the computing cluster (OpenPAI, Hadoop, etc.) to perform your experiments. These computing cluster system usually utilize Docker to isolate every experimental task. The docker container will be destroied when a experiment task is finished. It means that you need to upload your checkpoint models, training logs, tensorboard records to somewhere else.</p>
+<p>Many experiments managers can solve this issue. In this artichle, I choose <strong>Trains</strong>, which is an open-source <a href="https://github.com/allegroai/trains"><em>Experiment Manager &amp; Version Control for AI</em></a>. It can automatically collect your experimentation logs, outputs, and data to one centralized server.</p>
+<h2 id="deploy-trains-server">Deploy Trains Server</h2>
+<p>You can deploy a Trans-server on your own server or VPS. Thus, it can protect the privacy of your data.</p>
+<p>You can launch your own Trains-server by following the official doc (<a href="https://github.com/allegroai/trains-server/blob/master/docs/install_linux_mac.md">link</a>).</p>
+<p>Notablly, you need to ensure that your server have more than 3 GB RAM. Otherwise, you will get the some errors like this:</p>
+<pre><code>[WARNING] [urllib3.connectionpool] Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x7ff9549187f0&gt;: Failed to establish a new connection: [Errno -2] Name or service not known',)': /_template/events
+...
+</code></pre><p>The reason is that your server don't have enough memory to launch some services.</p>
+<p>After that, you can access the webUI by <code>YOUR IP:8080</code>.</p>
+<h2 id="bind-a-domain">Bind a Domain</h2>
+<p>If you hold a domain, you may want to access your Trains-server by your domain, instead of an ugly ip address.</p>
+<p>First, you need to add three DNS records/entrys at your nameserver's console. For example, add three A records:</p>
+<pre><code>app.trains.yourdomain.com  -&gt;  xxx.xxx.xxx.xxx
+api.trains.yourdomain.com  -&gt;  xxx.xxx.xxx.xxx
+files.trains.yourdomain.com  -&gt;  xxx.xxx.xxx.xxx
+</code></pre><p>After that, launch a webserver on your server/VPS. I use Nginx, which is a light-weight and powerful webserver. Add the following configuration in <code>\etc\nginx\sites-avaliable\default</code> (the path of the configuration file may be different):</p>
+<pre><code>server {
+    server_name app.trains.mydomain.com;
+
+    location / {
+        proxy_pass       http://127.0.0.1:8080;
+        proxy_set_header Host      $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    listen 80;
+}
+
+server {
+    server_name api.trains.mydomain.com;
+
+    location / {
+        proxy_pass       http://127.0.0.1:8008;
+        proxy_set_header Host      $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    listen 80;
+}
+
+server {
+    server_name files.trains.mydomain.com;
+
+    location / {
+        proxy_pass       http://127.0.0.1:8081;
+        proxy_set_header Host      $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    listen 80;
+}
+</code></pre><p>After restarting your Nginx service, you can use your Trains-server by <code>http://app.trains.mydomain.com</code>. The Trains-server will automaticaly access its API and File server based on the address it is served from. For example, if browsing to <code>http://ip:8080</code> it will look for the API server at <code>http://ip:8008</code>. And if browsing to <code>http://app.trains.mydomain.com</code>, it will look for <code>http://api.trains.mydomain.com</code>.</p>
+<h2 id="setup-ssl-for-your-trains-server">Setup SSL for your Trains-server</h2>
+<p>If you want to set up ssl for your Trains-server, but you don't have a SSL/TLS certificates. I highly recommend <strong>Let's encrypt</strong> and <strong>Certbot</strong>.</p>
+<p>Following this <a href="https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx">link</a>, you can install certbot on your server. Then, run this command:</p>
+<pre><code>sudo certbot --nginx
+</code></pre><p>It will automatically set up the SSL for your Trains-server! Now, you can access your webUI by <code>https://app.trains.mydomain.com</code></p>
+
+    </div>
+
+    <div class="post-copyright">
+        
+        <p class="copyright-item">
+            <span>Author:</span>
+            <span>Geoffrey Chen </span>
+        </p>
+        
+
+        
+        <p class="copyright-item">
+            <span>Link:</span>
+            <a href=https://geoch.top/2020/trains/>https://geoch.top/2020/trains/</span>
+        </p>
+        
+        
+    </div>
+
+
+    <div class="post-tags">
+        
+        <section>
+            <i class="iconfont icon-tag"></i>Tag(s):
+            
+            <span class="tag"><a href="https://geoch.top/tags/essay/">
+                    #Essay</a></span>
+            
+        </section>
+        
+        <section>
+            <a href="javascript:window.history.back();">back</a></span> ·
+            <span><a href="https://geoch.top/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://geoch.top/2019/build-error-with-opencv/" class="prev" rel="prev" title="gSLIC Build Error."><i
+                class="iconfont icon-left"></i>&nbsp;gSLIC Build Error.</a>
+        
+        
+    </div>
+
+    <div class="post-comment">
+        
+        
+        
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+   <div class="copyright">
+      &copy;
+      
+      <span itemprop="copyrightYear">2017 - 2020</span>
+      
+      |
+      
+      <span class="author" itemprop="copyrightHolder"><a href="https://geoch.top/">Geoffrey Chen</a> |
+      </span>
+      
+
+      
+      <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & Inspired by <a
+            href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span>
+   </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+
+<script type="text/javascript"
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+     </div>
+  </body>
+</html>
