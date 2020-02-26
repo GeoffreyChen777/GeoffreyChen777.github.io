@@ -17,7 +17,7 @@
       <pubDate>Wed, 26 Feb 2020 23:00:00 +0000</pubDate>
       
       <guid>https://geoch.top/2020/trains/</guid>
-      <description>If you are a deeplearning researcher, you really need to structure your experiments very well. Generally, you need to do your experiments repeately to find the best hyper-params, the best network structure, etc. Tensorboard is a solution to record all the scalars, images. But it can only save your record files in your local disks. It is ok for a individual research or a small team. But if you are working in a large team, you probabaly need to use the computing cluster (OpenPAI, Hadoop, etc.</description>
+      <description>If you are a deeplearning researcher, you really need to structure your experiments very well. Generally, you need to do your experiments repeatedly to find the best hyper-params, the best network structure, etc. Tensorboard is a solution to record all the scalars, images. But it can only save your record files in your local disks. It is ok for individual research or a small team. But if you are working in a large team, you probably need to use the computing cluster (OpenPAI, Hadoop, etc.</description>
     </item>
     
     <item>

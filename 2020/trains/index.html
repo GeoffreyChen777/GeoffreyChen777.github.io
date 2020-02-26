@@ -46,7 +46,7 @@
     "articleSection" : "posts",
     "name" : "Deploy Your Own Deeplearning Experiments Manager",
     "headline" : "Deploy Your Own Deeplearning Experiments Manager",
-    "description" : "If you are a deeplearning researcher, you really need to structure your experiments very well. Generally, you need to do your experiments repeately to find the best hyper-params, the best network structure, etc. Tensorboard is a solution to record all the scalars, images. But it can only save your record files in your local disks. It is ok for a individual research or a small team. But if you are working in a large team, you probabaly need to use the computing cluster (OpenPAI, Hadoop, etc.",
+    "description" : "If you are a deeplearning researcher, you really need to structure your experiments very well. Generally, you need to do your experiments repeatedly to find the best hyper-params, the best network structure, etc. Tensorboard is a solution to record all the scalars, images. But it can only save your record files in your local disks. It is ok for individual research or a small team. But if you are working in a large team, you probably need to use the computing cluster (OpenPAI, Hadoop, etc.",
     "inLanguage" : "en-us",
     "author" : "Geoffrey Chen",
     "creator" : "Geoffrey Chen",
@@ -57,7 +57,7 @@
     "datePublished": "2020-02-26 23:00:00 \x2b0000 UTC",
     "dateModified" : "2020-02-26 23:00:00 \x2b0000 UTC",
     "url" : "https:\/\/geoch.top\/2020\/trains\/",
-    "wordCount" : "542",
+    "wordCount" : "541",
     "keywords" : [ "Essay", "Geo\x27s Page"]
 }
 </script>
@@ -153,8 +153,8 @@
         
         
 
-        <p>If you are a deeplearning researcher, you really need to structure your experiments very well. Generally, you need to do your experiments repeately to find the best hyper-params, the best network structure, etc. Tensorboard is a solution to record all the scalars, images. But it can only save your record files in your local disks. It is ok for a individual research or a small team. But if you are working in a large team, you probabaly need to use the computing cluster (OpenPAI, Hadoop, etc.) to perform your experiments. These computing cluster system usually utilize Docker to isolate every experimental task. The docker container will be destroied when a experiment task is finished. It means that you need to upload your checkpoint models, training logs, tensorboard records to somewhere else.</p>
-<p>Many experiments managers can solve this issue. In this artichle, I choose <strong>Trains</strong>, which is an open-source <a href="https://github.com/allegroai/trains"><em>Experiment Manager &amp; Version Control for AI</em></a>. It can automatically collect your experimentation logs, outputs, and data to one centralized server.</p>
+        <p>If you are a deeplearning researcher, you really need to structure your experiments very well. Generally, you need to do your experiments repeatedly to find the best hyper-params, the best network structure, etc. Tensorboard is a solution to record all the scalars, images. But it can only save your record files in your local disks. It is ok for individual research or a small team. But if you are working in a large team, you probably need to use the computing cluster (OpenPAI, Hadoop, etc.) to perform your experiments. These computing cluster system usually utilize Docker to isolate every experimental task. The docker container will be destroyed when an experiment task is finished. It means that you need to upload your checkpoint models, training logs, tensorboard records to somewhere else.</p>
+<p>Many experiments managers can solve this issue. In this article, I choose <strong>Trains</strong>, which is an open-source <a href="https://github.com/allegroai/trains"><em>Experiment Manager &amp; Version Control for AI</em></a>. It can automatically collect your experimentation logs, outputs, and data to one centralized server.</p>
 <h2 id="deploy-trains-server">Deploy Trains Server</h2>
 <p>You can deploy a Trans-server on your own server or VPS. Thus, it can protect the privacy of your data.</p>
 <p>You can launch your own Trains-server by following the official doc (<a href="https://github.com/allegroai/trains-server/blob/master/docs/install_linux_mac.md">link</a>).</p>
