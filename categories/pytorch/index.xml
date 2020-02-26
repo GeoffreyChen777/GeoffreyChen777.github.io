@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>PyTorch on Geo&#39;s Blog</title>
+    <title>PyTorch on Geo&#39;s Page</title>
     <link>https://geoch.top/categories/pytorch/</link>
-    <description>Recent content in PyTorch on Geo&#39;s Blog</description>
+    <description>Recent content in PyTorch on Geo&#39;s Page</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 30 Dec 2018 21:46:02 +0000</lastBuildDate>
@@ -13,10 +13,10 @@
     
     <item>
       <title>TorchRecord</title>
-      <link>https://geoch.top/torchrecord/</link>
+      <link>https://geoch.top/2018/torchrecord/</link>
       <pubDate>Sun, 30 Dec 2018 21:46:02 +0000</pubDate>
       
-      <guid>https://geoch.top/torchrecord/</guid>
+      <guid>https://geoch.top/2018/torchrecord/</guid>
       <description>&lt;p&gt;In order to boost the performance of data loading in PyTorch. I write TorchRecord which is similar to the TFRecord of Tensorflow.&lt;/p&gt;</description>
     </item>
     

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Eassy on Geo&#39;s Blog</title>
+    <title>Eassy on Geo&#39;s Page</title>
     <link>https://geoch.top/tags/eassy/</link>
-    <description>Recent content in Eassy on Geo&#39;s Blog</description>
+    <description>Recent content in Eassy on Geo&#39;s Page</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 07 Jan 2019 21:46:02 +0000</lastBuildDate>
@@ -13,20 +13,20 @@
     
     <item>
       <title>gSLIC Build Error.</title>
-      <link>https://geoch.top/build-error-with-opencv/</link>
+      <link>https://geoch.top/2019/build-error-with-opencv/</link>
       <pubDate>Mon, 07 Jan 2019 21:46:02 +0000</pubDate>
       
-      <guid>https://geoch.top/build-error-with-opencv/</guid>
+      <guid>https://geoch.top/2019/build-error-with-opencv/</guid>
       <description>&lt;p&gt;If you got this error when you build the gSLIC superpixel segmentation algrithm:&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;/usr/include/c++/5/bits/stl_algobase.h:549:18: error: ambiguous overload for &amp;lsquo;operator=&amp;rsquo; (operand types are &amp;lsquo;cv::Rect_&lt;!-- raw HTML omitted --&gt;&amp;rsquo; and &amp;lsquo;cv::Rect_&lt;!-- raw HTML omitted --&gt;&amp;rsquo;)&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Reverse Proxy for Nextcloud, Gogs etc.</title>
-      <link>https://geoch.top/reverse-proxy-for-nginx/</link>
+      <link>https://geoch.top/2019/reverse-proxy-for-nginx/</link>
       <pubDate>Mon, 07 Jan 2019 21:46:02 +0000</pubDate>
       
-      <guid>https://geoch.top/reverse-proxy-for-nginx/</guid>
+      <guid>https://geoch.top/2019/reverse-proxy-for-nginx/</guid>
       <description>&lt;p&gt;If we run multiple web application such as nextcloud and gogs with many ports on one NGINX server, contacting these application with subpath is elegant.&lt;/p&gt;</description>
     </item>
     

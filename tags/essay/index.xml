@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Essay on Geo&#39;s Blog</title>
+    <title>Essay on Geo&#39;s Page</title>
     <link>https://geoch.top/tags/essay/</link>
-    <description>Recent content in Essay on Geo&#39;s Blog</description>
+    <description>Recent content in Essay on Geo&#39;s Page</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 28 Dec 2018 12:11:02 +0000</lastBuildDate>
@@ -13,10 +13,10 @@
     
     <item>
       <title>New Look</title>
-      <link>https://geoch.top/newlook/</link>
+      <link>https://geoch.top/2018/newlook/</link>
       <pubDate>Fri, 28 Dec 2018 12:11:02 +0000</pubDate>
       
-      <guid>https://geoch.top/newlook/</guid>
+      <guid>https://geoch.top/2018/newlook/</guid>
       <description>I dressed up this blog.
 I choose HUGO with LeaveIt theme to rebuild this blog. HUGO is really faster than HEXO.</description>
     </item>
