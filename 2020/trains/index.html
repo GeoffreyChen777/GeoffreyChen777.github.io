@@ -141,6 +141,8 @@
         
 
         
+        
+        
 
         
         
@@ -154,6 +156,7 @@
         
 
         <p>If you are a deeplearning researcher, you really need to structure your experiments very well. Generally, you need to do your experiments repeatedly to find the best hyper-params, the best network structure, etc. Tensorboard is a solution to record all the scalars, images. But it can only save your record files in your local disks. It is ok for individual research or a small team. But if you are working in a large team, you probably need to use the computing cluster (OpenPAI, Hadoop, etc.) to perform your experiments. These computing cluster system usually utilize Docker to isolate every experimental task. The docker container will be destroyed when an experiment task is finished. It means that you need to upload your checkpoint models, training logs, tensorboard records to somewhere else.</p>
+<p><img src="https://raw.githubusercontent.com/allegroai/trains/master/docs/webapp_screenshots.gif" alt="Trains"></p>
 <p>Many experiments managers can solve this issue. In this article, I choose <strong>Trains</strong>, which is an open-source <a href="https://github.com/allegroai/trains"><em>Experiment Manager &amp; Version Control for AI</em></a>. It can automatically collect your experimentation logs, outputs, and data to one centralized server.</p>
 <h2 id="deploy-trains-server">Deploy Trains Server</h2>
 <p>You can deploy a Trans-server on your own server or VPS. Thus, it can protect the privacy of your data.</p>
@@ -294,8 +297,9 @@ server {
 
 
     
-    
-    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+     <link href="//lib.baomitu.com/lightgallery/1.6.11/css/lightgallery.min.css" rel="stylesheet">  
+      
+     <script src="/js/vendor_gallery.min.js" async="" ></script>
     
   
 
