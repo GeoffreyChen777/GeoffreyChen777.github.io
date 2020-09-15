@@ -59,9 +59,13 @@
 
 .icon-xihuan1:before { content: "\e870"; }
 
-.icon-academic-cap_brief:before { content: "\e644"; }
+.icon-academic-cap-brief:before { content: "\e644"; }
 
 .icon-right:before { content: "\e6dd"; }
 
 .icon-medium-circle-fill:before { content: "\e887"; }
 
+.icofont-graduate:before
+{
+  content: "\eadc";
+}
